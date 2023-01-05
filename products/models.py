@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 
@@ -33,3 +34,21 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['name']
+
+
+def get_image_filename(instance: Product(), filename) -> str:
+    slug = slugify(instance.product.name)
+    return f'products_images/{slug}-{filename}'
+
+
+class Image(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    images = models.ImageField(upload_to=get_image_filename, verbose_name='Изображение')
+
+    def __str__(self):
+        return f'Изображение {self.id} для {self.product.name}'
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+        ordering = ['product']
