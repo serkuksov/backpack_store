@@ -89,11 +89,10 @@
                                                         }
                                                     }
                                                 ]'>
-                                        {% for elm in images %}
+                                        {% for image in product.images.all %}
                                             <div class="item">
                                                 <figure class="product-gallery__nav-image--single">
-                                                    <img src="{{ elm.image.url }}"
-                                                         alt="Products">
+                                                    <img src="{{ image.image.url }}" alt="Products">
                                                 </figure>
                                             </div>
                                         {% endfor %}
@@ -299,15 +298,17 @@
                                                 "slidesToShow": 1
                                             }}
                                         ]'>
-                            {% for elm in products %}
+                            {% for additional_product in additional_products %}
                                 <div class="item">
                                     <div class="payne-product">
                                         <div class="product__inner">
                                             <div class="product__image">
                                                 <figure class="product__image--holder">
-                                                    <img src="{{ elm.url_img }}" alt="Product">
+                                                    <img src="{{ additional_product.images.all.0.image.url }}"
+                                                         alt="Product">
+                                                    <img src="{{ additional_product.url_img }}" alt="Product">
                                                 </figure>
-                                                <a href="{% url 'products:detail' pk=elm.id %}"
+                                                <a href="{% url 'products:detail' pk=additional_product.id %}"
                                                    class="product-overlay"></a>
                                                 <div class="product__action">
                                                     <a href="wishlist.html" class="action-btn">
@@ -323,10 +324,10 @@
                                             <div class="product__info">
                                                 <div class="product__info--left">
                                                     <h3 class="product__title">
-                                                        <a href="{% url 'products:detail' pk=elm.id %}">{{ elm.name }}</a>
+                                                        <a href="{% url 'products:detail' pk=additional_product.id %}">{{ additional_product.name }}</a>
                                                     </h3>
                                                     <div class="product__price">
-                                                        <span class="money">{{ elm.price }}</span>
+                                                        <span class="money">{{ additional_product.price }}</span>
                                                         <span class="sign">р</span>
                                                     </div>
                                                 </div>
