@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('products.urls', 'products'))),
+    path('silk/', include('silk.urls', namespace='silk')),
 ]
 
 if settings.DEBUG:

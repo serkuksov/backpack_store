@@ -26,62 +26,18 @@
                                                     "arrows": false,
                                                     "asNavFor": ".nav-slider"
                                                 }'>
-                                            <div class="item">
-                                                <figure class="product-gallery__image zoom">
-                                                    <img src="../../../static/assets/img/products/product-03-500x555.png"
-                                                         alt="Product">
-                                                    <span class="product-badge sale">Sale</span>
-                                                    {#                                                    <div class="product-gallery__actions">#}
-                                                    {#                                                        <button class="action-btn btn-zoom-popup"><i#}
-                                                    {#                                                                class="fa fa-eye"></i></button>#}
-                                                    {#                                                        <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"#}
-                                                    {#                                                           class="action-btn video-popup"><i#}
-                                                    {#                                                                class="fa fa-play"></i></a>#}
-                                                    {#                                                    </div>#}
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__image zoom">
-                                                    <img src="../../../static/assets/img/products/product-04-500x555.png"
-                                                         alt="Product">
-                                                    <span class="product-badge sale">Sale</span>
-                                                    <div class="product-gallery__actions">
-                                                        <button class="action-btn btn-zoom-popup"><i
-                                                                class="fa fa-eye"></i></button>
-                                                        <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                           class="action-btn video-popup"><i
-                                                                class="fa fa-play"></i></a>
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__image zoom">
-                                                    <img src="../../../static/assets/img/products/product-05-500x555.png"
-                                                         alt="Product">
-                                                    <span class="product-badge sale">Sale</span>
-                                                    <div class="product-gallery__actions">
-                                                        <button class="action-btn btn-zoom-popup"><i
-                                                                class="fa fa-eye"></i></button>
-                                                        <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                           class="action-btn video-popup"><i
-                                                                class="fa fa-play"></i></a>
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="item">
-                                                <figure class="product-gallery__image zoom">
-                                                    <img src="../../../static/assets/img/products/product-06-500x555.png"
-                                                         alt="Product">
-                                                    <span class="product-badge sale">Sale</span>
-                                                    <div class="product-gallery__actions">
-                                                        <button class="action-btn btn-zoom-popup"><i
-                                                                class="fa fa-eye"></i></button>
-                                                        <a href="https://www.youtube.com/watch?v=Rp19QD2XIGM"
-                                                           class="action-btn video-popup"><i
-                                                                class="fa fa-play"></i></a>
-                                                    </div>
-                                                </figure>
-                                            </div>
+                                            {% for elm in images %}
+                                                <div class="item">
+                                                    <figure class="product-gallery__image zoom">
+                                                        <img src="{{ elm.image.url }}" alt="Product">
+                                                        <span class="product-badge sale">Sale</span>
+                                                        <div class="product-gallery__actions">
+                                                            <button class="action-btn btn-zoom-popup">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button>
+                                                    </figure>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -133,30 +89,14 @@
                                                         }
                                                     }
                                                 ]'>
-                                        <div class="item">
-                                            <figure class="product-gallery__nav-image--single">
-                                                <img src="../../../static/assets/img/products/product-03-270x300.jpg"
-                                                     alt="Products">
-                                            </figure>
-                                        </div>
-                                        <div class="item">
-                                            <figure class="product-gallery__nav-image--single">
-                                                <img src="../../../static/assets/img/products/product-04-270x300.jpg"
-                                                     alt="Products">
-                                            </figure>
-                                        </div>
-                                        <div class="item">
-                                            <figure class="product-gallery__nav-image--single">
-                                                <img src="../../../static/assets/img/products/product-05-270x300.jpg"
-                                                     alt="Products">
-                                            </figure>
-                                        </div>
-                                        <div class="item">
-                                            <figure class="product-gallery__nav-image--single">
-                                                <img src="../../../static/assets/img/products/product-06-270x300.jpg"
-                                                     alt="Products">
-                                            </figure>
-                                        </div>
+                                        {% for elm in images %}
+                                            <div class="item">
+                                                <figure class="product-gallery__nav-image--single">
+                                                    <img src="{{ elm.image.url }}"
+                                                         alt="Products">
+                                                </figure>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -177,41 +117,7 @@
                             <p class="product-short-description mb--20">{{ product.description }}</p>
                             <div class="product-price-wrapper mb--25">
                                 <span class="money">{{ product.price }} р.</span>
-                                {#                                <span class="price-separator">-</span>#}
-                                {#                                <span class="money">$400.00</span>#}
                             </div>
-                            {#                            <form action="#" class="variation-form mb--20">#}
-                            {#                                <div class="product-size-variations d-flex align-items-center mb--15">#}
-                            {#                                    <p class="variation-label">Size:</p>#}
-                            {#                                    <div class="product-size-variation variation-wrapper">#}
-                            {#                                        <div class="variation">#}
-                            {#                                            <a class="product-size-variation-btn selected" data-toggle="tooltip"#}
-                            {#                                               data-placement="top" title="S">#}
-                            {#                                                <span class="product-size-variation-label">S</span>#}
-                            {#                                            </a>#}
-                            {#                                        </div>#}
-                            {#                                        <div class="variation">#}
-                            {#                                            <a class="product-size-variation-btn" data-toggle="tooltip"#}
-                            {#                                               data-placement="top" title="M">#}
-                            {#                                                <span class="product-size-variation-label">M</span>#}
-                            {#                                            </a>#}
-                            {#                                        </div>#}
-                            {#                                        <div class="variation">#}
-                            {#                                            <a class="product-size-variation-btn" data-toggle="tooltip"#}
-                            {#                                               data-placement="top" title="L">#}
-                            {#                                                <span class="product-size-variation-label">L</span>#}
-                            {#                                            </a>#}
-                            {#                                        </div>#}
-                            {#                                        <div class="variation">#}
-                            {#                                            <a class="product-size-variation-btn" data-toggle="tooltip"#}
-                            {#                                               data-placement="top" title="XL">#}
-                            {#                                                <span class="product-size-variation-label">XL</span>#}
-                            {#                                            </a>#}
-                            {#                                        </div>#}
-                            {#                                    </div>#}
-                            {#                                </div>#}
-                            {#                                <a href="" class="reset_variations">Clear</a>#}
-                            {#                            </form>#}
                             <div
                                     class="product-action d-flex flex-sm-row align-items-sm-center flex-column align-items-start mb--30">
                                 <div class="quantity-wrapper d-flex align-items-center mr--30 mr-xs--0 mb-xs--30">
@@ -229,9 +135,6 @@
                             <div class="product-footer-meta">
                                 <p><span>Категория:</span>
                                     <a href="shop.html">{{ product.category.name }}</a>
-                                    {#                                    <a href="shop.html">SweatShirt</a>,#}
-                                    {#                                    <a href="shop.html">Jacket</a>,#}
-                                    {#                                    <a href="shop.html">Blazer</a>#}
                                 </p>
                             </div>
                         </div>
@@ -259,23 +162,6 @@
                                      aria-labelledby="nav-description-tab">
                                     <div class="product-description">
                                         <p>{{ product.description }}</p>
-
-                                        {#                                        <p>Lorem ipsum dolor sit amet, consec do eiusmod tincididunt ut labore et#}
-                                        {#                                            dolore magna aliqua. Ut enim ad minim veniaLo ipsum dolor sit amet,#}
-                                        {#                                            consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore#}
-                                        {#                                            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud#}
-                                        {#                                            exercitation ullamco.</p>#}
-                                        {##}
-                                        {#                                        <h5 class="product-description__heading">Characteristics :</h5>#}
-                                        {#                                        <ul>#}
-                                        {#                                            <li><i class="fa fa-circle"></i><span>Rsit amet, consectetur#}
-                                        {#                                                        adipisicing elit, sed do eiusmod tempor inc.</span></li>#}
-                                        {#                                            <li><i class="fa fa-circle"></i><span>sunt in culpa qui officia#}
-                                        {#                                                        deserunt mollit anim id est laborum. </span></li>#}
-                                        {#                                            <li><i class="fa fa-circle"></i><span>Lorem ipsum dolor sit amet,#}
-                                        {#                                                        consec do eiusmod tincididu. </span></li>#}
-                                        {#                                        </ul>#}
-
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="nav-info" role="tabpanel"
@@ -284,22 +170,16 @@
                                         <table class="table shop_attributes">
                                             <tbody>
                                             <tr>
-                                                <th>Weight</th>
-                                                <td>57 kg</td>
+                                                <th>Бренд</th>
+                                                <td>{{ product.brand }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Dimensions</th>
-                                                <td>160 × 152 × 110 cm</td>
+                                                <th>Объем, л</th>
+                                                <td>{{ product.volume }} л.</td>
                                             </tr>
                                             <tr>
-                                                <th>Color</th>
-                                                <td>
-                                                    <a href="shop.html">Black</a>,
-                                                    <a href="shop.html">Gray</a>,
-                                                    <a href="shop.html">Red</a>,
-                                                    <a href="shop.html">Violet</a>,
-                                                    <a href="shop.html">Yellow</a>
-                                                </td>
+                                                <th>Размеры</th>
+                                                <td>{{ product.sizes }} см.</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -419,46 +299,38 @@
                                                 "slidesToShow": 1
                                             }}
                                         ]'>
-                            <div class="item">
-                                <div class="payne-product">
-                                    <div class="product__inner">
-                                        <div class="product__image">
-                                            <figure class="product__image--holder">
-                                                <img src="../../../static/assets/img/products/product-03-270x300.jpg"
-                                                     alt="Product">
-                                            </figure>
-                                            <a href="product-details.html" class="product__overlay"></a>
-                                            <div class="product__action">
-                                                <a data-toggle="modal" data-target="#productModal"
-                                                   class="action-btn">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span class="sr-only">Quick View</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-heart-o"></i>
-                                                    <span class="sr-only">Add to wishlist</span>
-                                                </a>
-                                                <a href="compare.html" class="action-btn">
-                                                    <i class="fa fa-repeat"></i>
-                                                    <span class="sr-only">Add To Compare</span>
-                                                </a>
-                                                <a href="cart.html" class="action-btn">
-                                                    <i class="fa fa-shopping-cart"></i>
-                                                    <span class="sr-only">Add To Cart</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product__info">
-                                            <div class="product__info--left">
-                                                <h3 class="product__title">
-                                                    <a href="product-details.html">Lexbaro Begadi</a>
-                                                </h3>
-                                                <div class="product__price">
-                                                    <span class="money">132.00</span>
-                                                    <span class="sign">$</span>
+                            {% for elm in products %}
+                                <div class="item">
+                                    <div class="payne-product">
+                                        <div class="product__inner">
+                                            <div class="product__image">
+                                                <figure class="product__image--holder">
+                                                    <img src="{{ elm.url_img }}" alt="Product">
+                                                </figure>
+                                                <a href="{% url 'products:detail' pk=elm.id %}"
+                                                   class="product-overlay"></a>
+                                                <div class="product__action">
+                                                    <a href="wishlist.html" class="action-btn">
+                                                        <i class="fa fa-heart-o"></i>
+                                                        <span class="sr-only">Add to wishlist</span>
+                                                    </a>
+                                                    <a href="cart.html" class="action-btn">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                        <span class="sr-only">Add To Cart</span>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <div class="product__info--right">
+                                            <div class="product__info">
+                                                <div class="product__info--left">
+                                                    <h3 class="product__title">
+                                                        <a href="{% url 'products:detail' pk=elm.id %}">{{ elm.name }}</a>
+                                                    </h3>
+                                                    <div class="product__price">
+                                                        <span class="money">{{ elm.price }}</span>
+                                                        <span class="sign">р</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product__info--right">
                                                         <span class="product__rating">
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
@@ -466,167 +338,12 @@
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="payne-product">
-                                    <div class="product__inner">
-                                        <div class="product__image">
-                                            <figure class="product__image--holder">
-                                                <img src="../../../static/assets/img/products/product-05-270x300.jpg"
-                                                     alt="Product">
-                                            </figure>
-                                            <a href="product-details.html" class="product-overlay"></a>
-                                            <div class="product__action">
-                                                <a data-toggle="modal" data-target="#productModal"
-                                                   class="action-btn">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span class="sr-only">Quick View</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-heart-o"></i>
-                                                    <span class="sr-only">Add to wishlist</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-repeat"></i>
-                                                    <span class="sr-only">Add To Compare</span>
-                                                </a>
-                                                <a href="cart.html" class="action-btn">
-                                                    <i class="fa fa-shopping-cart"></i>
-                                                    <span class="sr-only">Add To Cart</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product__info">
-                                            <div class="product__info--left">
-                                                <h3 class="product__title">
-                                                    <a href="product-details.html">Lexbaro Begadi</a>
-                                                </h3>
-                                                <div class="product__price">
-                                                    <span class="money">132.00</span>
-                                                    <span class="sign">$</span>
                                                 </div>
                                             </div>
-                                            <div class="product__info--right">
-                                                        <span class="product__rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <div class="payne-product">
-                                    <div class="product__inner">
-                                        <div class="product__image">
-                                            <figure class="product__image--holder">
-                                                <img src="../../../static/assets/img/products/product-06-270x300.jpg"
-                                                     alt="Product">
-                                            </figure>
-                                            <a href="product-details.html" class="product-overlay"></a>
-                                            <div class="product__action">
-                                                <a data-toggle="modal" data-target="#productModal"
-                                                   class="action-btn">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span class="sr-only">Quick View</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-heart-o"></i>
-                                                    <span class="sr-only">Add to wishlist</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-repeat"></i>
-                                                    <span class="sr-only">Add To Compare</span>
-                                                </a>
-                                                <a href="cart.html" class="action-btn">
-                                                    <i class="fa fa-shopping-cart"></i>
-                                                    <span class="sr-only">Add To Cart</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product__info">
-                                            <div class="product__info--left">
-                                                <h3 class="product__title">
-                                                    <a href="product-details.html">Lexbaro Begadi</a>
-                                                </h3>
-                                                <div class="product__price">
-                                                    <span class="money">132.00</span>
-                                                    <span class="sign">$</span>
-                                                </div>
-                                            </div>
-                                            <div class="product__info--right">
-                                                        <span class="product__rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="payne-product">
-                                    <div class="product__inner">
-                                        <div class="product__image">
-                                            <figure class="product__image--holder">
-                                                <img src="../../../static/assets/img/products/product-08-270x300.jpg"
-                                                     alt="Product">
-                                            </figure>
-                                            <a href="product-details.html" class="product-overlay"></a>
-                                            <div class="product__action">
-                                                <a data-toggle="modal" data-target="#productModal"
-                                                   class="action-btn">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span class="sr-only">Quick View</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-heart-o"></i>
-                                                    <span class="sr-only">Add to wishlist</span>
-                                                </a>
-                                                <a href="wishlist.html" class="action-btn">
-                                                    <i class="fa fa-repeat"></i>
-                                                    <span class="sr-only">Add To Compare</span>
-                                                </a>
-                                                <a href="cart.html" class="action-btn">
-                                                    <i class="fa fa-shopping-cart"></i>
-                                                    <span class="sr-only">Add To Cart</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product__info">
-                                            <div class="product__info--left">
-                                                <h3 class="product__title">
-                                                    <a href="product-details.html">Lexbaro Begadi</a>
-                                                </h3>
-                                                <div class="product__price">
-                                                    <span class="money">132.00</span>
-                                                    <span class="sign">$</span>
-                                                </div>
-                                            </div>
-                                            <div class="product__info--right">
-                                                        <span class="product__rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
