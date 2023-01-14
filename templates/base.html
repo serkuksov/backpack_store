@@ -43,7 +43,7 @@
                 <div class="container">
                     <div class="header__main">
                         <div class="header__col header__left">
-                            <a href="index.html" class="logo">
+                            <a href="../products/templates/products/index.html" class="logo">
                                 <figure class="logo--normal">
                                     <img src="../../../static/assets/img/logo/logo.png" alt="Logo">
                                 </figure>
@@ -56,113 +56,10 @@
                             <nav class="main-navigation d-none d-lg-block">
                                 <ul class="mainmenu">
                                     <li class="mainmenu__item menu-item-has-children position-relative">
-                                        <a href="index.html" class="mainmenu__link">Главная</a>
-                                        {#                                        <div class="inner-menu">#}
-                                        {#                                            <ul class="sub-menu">#}
-                                        {#                                                <li>#}
-                                        {#                                                    <a href="index.html">Home One</a>#}
-                                        {#                                                </li>#}
-                                        {#                                                <li>#}
-                                        {#                                                    <a href="index-02.html">Home Two</a>#}
-                                        {#                                                </li>#}
-                                        {#                                            </ul>#}
-                                        {#                                        </div>#}
+                                        <a href="{% url 'products:index' %}" class="mainmenu__link">Главная</a>
                                     </li>
                                     <li class="mainmenu__item menu-item-has-children position-static">
-                                        <a href="#" class="mainmenu__link">Shop</a>
-                                        <div class="inner-menu megamenu-holder">
-                                            <ul class="megamenu">
-                                                <li>
-                                                    <a class="megamenu-title" href="#">Shop Grid</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="shop-fullwidth.html">Full Width</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop.html">Left Sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-right-sidebar.html">Right Sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-three-columns.html">Three Columns</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-four-columns.html">Four Columns</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a class="megamenu-title" href="#">Shop List</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="shop-list.html">Full Width</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-list-sidebar.html">Left Sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-list-right-sidebar.html">Right Sidebar</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a class="megamenu-title" href="#">Product Details</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="product-details.html">Tab Style 1</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-tab-style-2.html">Tab Style
-                                                                2</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-tab-style-3.html">Tab Style
-                                                                3</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-gallery-left.html">Gallery
-                                                                Left</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-gallery-right.html">Gallery
-                                                                Right</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-sticky-left.html">Sticky
-                                                                Left</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a class="megamenu-title" href="#">Product Details</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="product-details-sticky-right.html">Sticky
-                                                                Right</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-slider-box.html">Slider Box</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-slider-full-width.html">Slider
-                                                                Box Full Width</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-affiliate.html">Affiliate
-                                                                Proudct</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-variable.html">Variable
-                                                                Proudct</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details-group.html">Group Product</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <a href="{% url 'products:catalog' %}" class="mainmenu__link">Каталог</a>
                                     </li>
                                     <li class="mainmenu__item menu-item-has-children position-relative">
                                         <a href="#" class="mainmenu__link">Pages</a>
@@ -280,18 +177,7 @@
     <!-- Header End -->
 
     <!-- Breadcrumb area Start -->
-    {#    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">#}
-    <div class="container">
-        <div class="row">
-            <div class="col-2 text-center">
-                {#                    <h1 class="page-title">Tab Stlye 3</h1>#}
-                <ul class="breadcrumb">
-                    {% block breadcrumb %}{% endblock %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    {#    </section>#}
+    {% block breadcrumb %}{% endblock %}
     <!-- Breadcrumb area End -->
 
     <!-- Main Content Wrapper Start -->
@@ -507,7 +393,7 @@
                         </a>
                         <ul class="sub-menu">
                             <li class="has-children">
-                                <a href="index.html">
+                                <a href="../products/templates/products/index.html">
                                     <span class="mm-text">Home One</span>
                                 </a>
                             </li>

@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">Каталог магазина</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'products:index' %}">Главная</a></li>
+                        <li class="current"><span>Каталог</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="main-content-wrapper">
+        <div class="shop-page-wrapper ptb--80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8 order-lg-2 mb-md--50">
+                        <div class="shop-toolbar mb--50">
+                            <div class="row align-items-center">
+                                <div class="col-md-5 mb-sm--30 mb-xs--10">
+                                    <div class="shop-toolbar__left">
+                                        <div class="product-ordering">
+                                            <select class="product-ordering__select nice-select">
+                                                <option value="0">Default Sorting</option>
+                                                <option value="1">Relevance</option>
+                                                <option value="2">Name, A to Z</option>
+                                                <option value="3">Name, Z to A</option>
+                                                <option value="4">Price, low to high</option>
+                                                <option value="5">Price, high to low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="shop-toolbar__right">
+                                        <p class="product-pages">Showing Result 08 Among 72</p>
+                                        <div class="product-view-mode ml--50 ml-xs--0">
+                                            <a class="active" href="#" data-target="grid">
+                                                <img src="{% static 'assets/img/icons/grid.png' %}" alt="Grid">
+                                            </a>
+                                            <a href="#" data-target="list">
+                                                <img src="{% static 'assets/img/icons/list.png' %}" alt="Grid">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shop-products">
+                            <div class="row">
+                                {% for product in product_list %}
+                                    <div class="col-xl-4 col-sm-6 mb--50">
+                                        <div class="payne-product">
+                                            <div class="product__inner">
+                                                <div class="product__image">
+                                                    <figure class="product__image--holder">
+                                                        <img src="{{ product.images.all.0.image.url }}" alt="Product">
+                                                    </figure>
+                                                    <a href="{% url 'products:detail' pk=product.id %}"
+                                                       class="product__overlay"></a>
+                                                    <div class="product__action">
+                                                        <a href="wishlist.html" class="action-btn">
+                                                            <i class="fa fa-heart-o"></i>
+                                                            <span class="sr-only">Add to wishlist</span>
+                                                        </a>
+                                                        <a href="cart.html" class="action-btn">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            <span class="sr-only">Add To Cart</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="product__info">
+                                                    <div class="product__info--left">
+                                                        <h3 class="product__title">
+                                                            <a href="{% url 'products:detail' pk=product.id %}">{{ product.name }}</a>
+                                                        </h3>
+                                                        <div class="product__price">
+                                                            <span class="money">{{ product.price }}</span>
+                                                            <span class="sign">р</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product__info--right">
+                                                        <span class="product__rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="payne-product-list">
+                                            <div class="product__inner">
+                                                <figure class="product__image">
+                                                    <a href="{% url 'products:detail' pk=product.id %}" class="d-block">
+                                                        <img src="{{ product.images.all.0.image.url }}"
+                                                             alt="Products">
+                                                    </a>
+                                                </figure>
+                                                <div class="product__info">
+                                                    <h3 class="product__title">
+                                                        <a href="{% url 'products:detail' pk=product.id %}">{{ product.name }}</a>
+                                                    </h3>
+                                                    <div class="product__price">
+                                                        <span class="money">{{ product.price }}</span>
+                                                        <span class="sign">р</span>
+                                                    </div>
+                                                    <span class="product__rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </span>
+                                                    <p class="product__short-description">
+                                                        {{ product.description }}
+                                                    </p>
+                                                    <div class="d-flex product__list-action">
+                                                        <a href="cart.html" class="btn btn-size-sm">В корзину</a>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <nav class="pagination-wrap">
+                            <ul class="pagination">
+                                <li><span class="page-number current">1</span></li>
+                                <li><a href="#" class="page-number">2</a></li>
+                                <li><span class="dot"></span></li>
+                                <li><span class="dot"></span></li>
+                                <li><span class="dot"></span></li>
+                                <li><a href="#" class="page-number">16</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 order-lg-1">
+                        <aside class="shop-sidebar">
+                            <div class="shop-widget mb--40">
+                                <h3 class="widget-title mb--25">Категории</h3>
+                                <ul class="widget-list category-list">
+                                    {% for category in categories %}
+                                        <li>
+                                            <a href="shop.html">
+                                                <span class="category-title">{{ category.name }}</span>
+                                                <i class="fa fa-angle-double-right"></i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="shop-widget mb--40">
+                                <h3 class="widget-title mb--30">Цвет</h3>
+                                <div class="widget-color">
+                                    <a href="shop.html" class="red">Red</a>
+                                    <a href="shop.html" class="pink">Pink</a>
+                                    <a href="shop.html" class="black">black</a>
+                                    <a href="shop.html" class="brown">brown</a>
+                                    <a href="shop.html" class="blue">blue</a>
+                                    <a href="shop.html" class="cholate">cholate</a>
+                                    <a href="shop.html" class="copper">copper</a>
+                                    <a href="shop.html" class="gray">grey</a>
+                                </div>
+                            </div>
+                            <div class="shop-widget mb--40">
+                                <h3 class="widget-title mb--25">Цена</h3>
+                                <ul class="widget-list price-list">
+                                    <li>
+                                        <a href="shop.html">
+                                            <strong class="font-weight-medium">до 1000 р</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">
+                                            <strong class="font-weight-medium">1000 - 3000 р</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">
+                                            <strong class="font-weight-medium">более 3000 р</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="shop-widget mb--40">
+                                <h3 class="widget-title mb--25">Бренд</h3>
+                                <ul class="widget-list brand-list">
+                                    {% for brand in brands %}
+                                        <li>
+                                            <a href="shop.html">
+                                                <span>{{ brand.brand__name }}</span>
+                                                <strong class="color--red font-weight-medium">{{ brand.total }}</strong>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
