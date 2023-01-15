@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load product_tag %}
+
 
 {% block title %}
     {{ title }}
@@ -44,7 +46,9 @@
                                 </div>
                                 <div class="col-md-7">
                                     <div class="shop-toolbar__right">
-                                        <p class="product-pages">Showing Result 08 Among 72</p>
+                                        <p class="product-pages">
+                                            Показано {{ page_obj.start_index }}-{{ page_obj.end_index }}
+                                            из {{ paginator.count }}</p>
                                         <div class="product-view-mode ml--50 ml-xs--0">
                                             <a class="active" href="#" data-target="grid">
                                                 <img src="{% static 'assets/img/icons/grid.png' %}" alt="Grid">
@@ -139,22 +143,14 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <nav class="pagination-wrap">
-                            <ul class="pagination">
-                                <li><span class="page-number current">1</span></li>
-                                <li><a href="#" class="page-number">2</a></li>
-                                <li><span class="dot"></span></li>
-                                <li><span class="dot"></span></li>
-                                <li><span class="dot"></span></li>
-                                <li><a href="#" class="page-number">16</a></li>
-                            </ul>
-                        </nav>
+                        {% include 'pagination.html' %}
                     </div>
                     <div class="col-xl-3 col-lg-4 order-lg-1">
                         <aside class="shop-sidebar">
                             <div class="shop-widget mb--40">
                                 <h3 class="widget-title mb--25">Категории</h3>
                                 <ul class="widget-list category-list">
+                                    {% get_categories as categories %}
                                     {% for category in categories %}
                                         <li>
                                             <a href="shop.html">
@@ -168,14 +164,11 @@
                             <div class="shop-widget mb--40">
                                 <h3 class="widget-title mb--30">Цвет</h3>
                                 <div class="widget-color">
-                                    <a href="shop.html" class="red">Red</a>
-                                    <a href="shop.html" class="pink">Pink</a>
-                                    <a href="shop.html" class="black">black</a>
-                                    <a href="shop.html" class="brown">brown</a>
-                                    <a href="shop.html" class="blue">blue</a>
-                                    <a href="shop.html" class="cholate">cholate</a>
-                                    <a href="shop.html" class="copper">copper</a>
-                                    <a href="shop.html" class="gray">grey</a>
+                                    {% get_colors as colors %}
+                                    {% for color in colors %}
+                                        <a href="shop.html"
+                                           style="background-color: {{ color.hex_color }}">{{ color.name }}</a>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="shop-widget mb--40">

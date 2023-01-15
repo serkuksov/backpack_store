@@ -48,19 +48,21 @@ class IndexView(View):
 
 
 class ProductsView(ListView):
+    """Страница каталога"""
     model = Product
     queryset = (Product.objects.
                 prefetch_related(Prefetch('images', queryset=Image.objects.all())).
                 order_by('id'))
     template_name = 'products/catalog.html'
+    paginate_by = 9
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
-        categories = Category.objects.all()
+        # categories = Category.objects.all()
         brands = Product.objects.values('brand__name').annotate(total=Count('id'))
         context = context | {
             'title': 'Каталог',
-            'categories': categories,
+            # 'categories': categories,
             'brands': brands,
         }
         return context

@@ -1,0 +1,34 @@
+<nav class="pagination-wrap">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            {% if page_obj.number|add:-1 > 1 %}
+                <li><a href="?page=1" class="page-number">1</a></li>
+            {% endif %}
+            {% if page_obj.number|add:-1 > 2 %}
+                <li><span class="dot"></span></li>
+                <li><span class="dot"></span></li>
+                <li><span class="dot"></span></li>
+            {% endif %}
+        {% endif %}
+        {% if paginator.page_range|length > 1 %}
+            {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <li><span class="page-number current">{{ p }}</span></li>
+                {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
+                    <li><a href="?page={{ p }}" class="page-number">{{ p }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if page_obj.has_next %}
+            {% if page_obj.number|add:2 < paginator.num_pages %}
+                <li><span class="dot"></span></li>
+                <li><span class="dot"></span></li>
+                <li><span class="dot"></span></li>
+            {% endif %}
+            {% if page_obj.number|add:1 < paginator.num_pages %}
+                <li><a href="?page={{ paginator.num_pages }}"
+                       class="page-number">{{ paginator.num_pages }}</a></li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</nav>

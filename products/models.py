@@ -9,11 +9,9 @@ class Product(models.Model):
     volume = models.PositiveSmallIntegerField(verbose_name='Объем в литрах', null=True)
     price = models.PositiveIntegerField(verbose_name='Цена')
     description = models.TextField(verbose_name='Описание')
-    # size = models.CharField(max_length=8, verbose_name='Размер')
-    colour = models.CharField(max_length=64, verbose_name='Цвет')
-    # quantity = models.PositiveSmallIntegerField()
+    colour = models.ForeignKey('Color', on_delete=models.PROTECT, verbose_name='Цвет')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
-    brand = models.ForeignKey('Brand', on_delete=models.PROTECT, verbose_name='Бренд', related_name="brands", null=True)
+    brand = models.ForeignKey('Brand', on_delete=models.PROTECT, verbose_name='Бренд', null=True)
 
     def __str__(self):
         return self.name
@@ -21,7 +19,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ['name']
+        ordering = ['id']
 
     def get_absolute_url(self):
         return reverse('products:detail', kwargs={'pk': self.pk})
@@ -36,6 +34,19 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ['name']
+
+
+class Color(models.Model):
+    name = models.CharField('Цвет', max_length=32)
+    hex_color = models.CharField('Цвет в виде HEX', max_length=7, default="#ffffff")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Цвет'
+        verbose_name_plural = 'Цвета'
         ordering = ['name']
 
 
