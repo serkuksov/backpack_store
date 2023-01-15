@@ -1,4 +1,4 @@
-from django.db.models import Prefetch, Subquery, OuterRef, Count
+from django.db.models import Prefetch, Subquery, OuterRef, Count, Q
 from django.shortcuts import render, HttpResponse
 from django.views.generic import View, DetailView, ListView
 
@@ -56,13 +56,40 @@ class ProductsView(ListView):
     template_name = 'products/catalog.html'
     paginate_by = 9
 
+    def get_queryset(self):
+        queryset = Product.objects
+        category_id = self.request.GET.getlist('category')
+        if category_id:
+            queryset = queryset.filter(category__in=category_id)
+        color_id = self.request.GET.getlist('color')
+        if color_id:
+            queryset = queryset.filter(colour__in=color_id)
+        price = self.request.GET.getlist('price')
+        if price:
+            if price[0] == '1':
+                queryset = queryset.filter(price__lt=1000)
+            elif price[0] == '2':
+                queryset = queryset.filter(price__lte=3000, price__gte=1000)
+            else:
+                queryset = queryset.filter(price__gt=3000)
+        brand_id = self.request.GET.getlist('brand')
+        if brand_id:
+            queryset = queryset.filter(brand__in=brand_id)
+        queryset = (queryset.
+                    prefetch_related(Prefetch('images', queryset=Image.objects.all())).
+                    order_by('id'))
+        return queryset
+
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
         # categories = Category.objects.all()
-        brands = Product.objects.values('brand__name').annotate(total=Count('id'))
+        brands = Product.objects.values('brand__name', 'brand_id').annotate(total=Count('id'))
+        get_params = ''.join([f'{key}={value}&' for key, value in self.request.GET.items() if key != 'page'])
+        print(self.request.GET)
         context = context | {
             'title': 'Каталог',
             # 'categories': categories,
             'brands': brands,
+            'get_params': get_params,
         }
         return context

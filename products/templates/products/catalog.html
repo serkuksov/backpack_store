@@ -153,7 +153,7 @@
                                     {% get_categories as categories %}
                                     {% for category in categories %}
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="?category={{ category.id }}">
                                                 <span class="category-title">{{ category.name }}</span>
                                                 <i class="fa fa-angle-double-right"></i>
                                             </a>
@@ -166,7 +166,7 @@
                                 <div class="widget-color">
                                     {% get_colors as colors %}
                                     {% for color in colors %}
-                                        <a href="shop.html"
+                                        <a href="?color={{ color.id }}"
                                            style="background-color: {{ color.hex_color }}">{{ color.name }}</a>
                                     {% endfor %}
                                 </div>
@@ -175,17 +175,17 @@
                                 <h3 class="widget-title mb--25">Цена</h3>
                                 <ul class="widget-list price-list">
                                     <li>
-                                        <a href="shop.html">
+                                        <a href="?price=1">
                                             <strong class="font-weight-medium">до 1000 р</strong>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="shop.html">
+                                        <a href="?price=2">
                                             <strong class="font-weight-medium">1000 - 3000 р</strong>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="shop.html">
+                                        <a href="?price=3">
                                             <strong class="font-weight-medium">более 3000 р</strong>
                                         </a>
                                     </li>
@@ -196,7 +196,7 @@
                                 <ul class="widget-list brand-list">
                                     {% for brand in brands %}
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="?brand={{ brand.brand_id }}">
                                                 <span>{{ brand.brand__name }}</span>
                                                 <strong class="color--red font-weight-medium">{{ brand.total }}</strong>
                                             </a>

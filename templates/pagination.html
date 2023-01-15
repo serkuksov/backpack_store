@@ -2,7 +2,7 @@
     <ul class="pagination">
         {% if page_obj.has_previous %}
             {% if page_obj.number|add:-1 > 1 %}
-                <li><a href="?page=1" class="page-number">1</a></li>
+                <li><a href="?{{ get_params }}page=1" class="page-number">1</a></li>
             {% endif %}
             {% if page_obj.number|add:-1 > 2 %}
                 <li><span class="dot"></span></li>
@@ -15,7 +15,7 @@
                 {% if page_obj.number == p %}
                     <li><span class="page-number current">{{ p }}</span></li>
                 {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
-                    <li><a href="?page={{ p }}" class="page-number">{{ p }}</a></li>
+                    <li><a href="?{{ get_params }}page={{ p }}" class="page-number">{{ p }}</a></li>
                 {% endif %}
             {% endfor %}
         {% endif %}
@@ -26,7 +26,7 @@
                 <li><span class="dot"></span></li>
             {% endif %}
             {% if page_obj.number|add:1 < paginator.num_pages %}
-                <li><a href="?page={{ paginator.num_pages }}"
+                <li><a href="?{{ get_params }}page={{ paginator.num_pages }}"
                        class="page-number">{{ paginator.num_pages }}</a></li>
             {% endif %}
         {% endif %}
