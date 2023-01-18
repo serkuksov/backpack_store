@@ -120,19 +120,11 @@
                                         <figure class="product__image--holder">
                                             <img src="{{ product.images.all.0.image.url }}" alt="Product">
                                         </figure>
-                                        <a href="product-details.html" class="product-overlay"></a>
+                                        <a href="{% url 'products:detail' pk=product.id %}" class="product-overlay"></a>
                                         <div class="product__action">
-                                            <a data-toggle="modal" data-target="#productModal" class="action-btn">
-                                                <i class="fa fa-eye"></i>
-                                                <span class="sr-only">Quick View</span>
-                                            </a>
                                             <a href="wishlist.html" class="action-btn">
                                                 <i class="fa fa-heart-o"></i>
                                                 <span class="sr-only">Add to wishlist</span>
-                                            </a>
-                                            <a href="wishlist.html" class="action-btn">
-                                                <i class="fa fa-repeat"></i>
-                                                <span class="sr-only">Add To Compare</span>
                                             </a>
                                             <a href="cart.html" class="action-btn">
                                                 <i class="fa fa-shopping-cart"></i>

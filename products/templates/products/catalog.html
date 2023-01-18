@@ -33,13 +33,13 @@
                                 <div class="col-md-5 mb-sm--30 mb-xs--10">
                                     <div class="shop-toolbar__left">
                                         <div class="product-ordering">
-                                            <select class="product-ordering__select nice-select">
-                                                <option value="0">Default Sorting</option>
-                                                <option value="1">Relevance</option>
-                                                <option value="2">Name, A to Z</option>
-                                                <option value="3">Name, Z to A</option>
-                                                <option value="4">Price, low to high</option>
-                                                <option value="5">Price, high to low</option>
+                                            <select class="product-ordering__select nice-select" name="sort"
+                                                    onChange="window.location.href=this.value">
+                                                {% for sort in sorts %}
+                                                    <option value="{% url 'products:catalog' %}?{{ get_params }}sort={{ sort.1 }}">
+                                                        {{ sort.0 }}
+                                                    </option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                     </div>

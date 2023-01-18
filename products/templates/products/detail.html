@@ -13,7 +13,9 @@
                     <h1 class="page-title">{{ product.name }}</h1>
                     <ul class="breadcrumb">
                         <li><a href="{% url 'products:index' %}">Главная</a></li>
-                        <li class="current"><span>{{ product.category.name }}</span></li>
+                        <li class="current"><a
+                                href="{% url 'products:catalog' %}?category={{ product.category_id }}">{{ product.category.name }}</a>
+                        </li>
                         <li class="current"><span>{{ product.name }}</span></li>
                     </ul>
                 </div>
