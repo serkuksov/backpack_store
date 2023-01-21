@@ -54,21 +54,19 @@ class ProductsView(ListView):
                 prefetch_related(Prefetch('images', queryset=Image.objects.all())).
                 order_by('id'))
     template_name = 'products/catalog.html'
-    paginate_by = 9
+    paginate_by = 2
 
     def get_ordering(self):
-        sort = self.request.GET.getlist('sort')
-        print(sort)
+        sort = self.request.GET.get('sort')
         if sort:
-            sort = sort[-1]
             if sort == '1':
                 return '-id'
             elif sort == '2':
                 return 'price'
             elif sort == '3':
                 return '-price'
-        else:
-            return 'id'
+            elif sort == '0':
+                return 'id'
 
     def get_queryset(self):
         queryset = Product.objects
@@ -89,16 +87,14 @@ class ProductsView(ListView):
         brand_id = self.request.GET.getlist('brand')
         if brand_id:
             queryset = queryset.filter(brand__in=brand_id)
+        queryset = queryset.prefetch_related(Prefetch('images', queryset=Image.objects.all()))
         ordering = self.get_ordering()
-        print(ordering)
-        queryset = (queryset.
-                    prefetch_related(Prefetch('images', queryset=Image.objects.all())).
-                    order_by(ordering))
+        if ordering:
+            queryset = queryset.order_by(ordering)
         return queryset
 
     def get_sorts(self):
         sort = self.request.GET.getlist('sort')
-        print(sort)
         if sort:
             sort = sort[-1]
             if sort == '1':
