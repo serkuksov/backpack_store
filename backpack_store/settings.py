@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'silk',
     'products',
+    'phonenumber_field',
+    'users_detail',
 ]
 
 MIDDLEWARE = [

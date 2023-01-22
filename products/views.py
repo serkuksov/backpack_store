@@ -128,13 +128,11 @@ class ProductsView(ListView):
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
-        # categories = Category.objects.all()
         brands = Product.objects.values('brand__name', 'brand_id').annotate(total=Count('id'))
         get_params = ''.join(
             [f'{key}={value}&' for key, value in self.request.GET.items() if key != 'page' and key != 'sort'])
         context = context | {
             'title': 'Каталог',
-            # 'categories': categories,
             'brands': brands,
             'get_params': get_params,
             'sorts': self.get_sorts()
