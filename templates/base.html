@@ -137,11 +137,34 @@
                             </nav>
                         </div>
                         <div class="header__col header__right">
-                            <div class="toolbar-item d-none d-lg-block">
-                                <a href="{% url 'users_detail:login-register' %}" class="toolbar-btn">
-                                    <span>Войти</span>
-                                </a>
-                            </div>
+                            {% if request.user.is_authenticated %}
+                                <div class="toolbar-item">
+                                    <a href="wishlist.html" class="toolbar-btn">
+                                        <i class="flaticon-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="toolbar-item mini-cart-btn">
+                                    <a href="#miniCart" class="toolbar-btn js-toolbar">
+                                        <span class="mini-cart-btn__icon">
+                                            <i class="flaticon-bag"></i>
+                                        </span>
+                                        <sup class="mini-cart-btn__count">
+                                            02
+                                        </sup>
+                                    </a>
+                                </div>
+                                <div class="toolbar-item d-none d-lg-block">
+                                    <a href="{% url 'users_detail:logout' %}" class="toolbar-btn">
+                                        <span>Выйти</span>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="toolbar-item d-none d-lg-block">
+                                    <a href="{% url 'users_detail:login' %}" class="toolbar-btn">
+                                        <span>Войти</span>
+                                    </a>
+                                </div>
+                            {% endif %}
                             <div class="toolbar-item d-block d-lg-none">
                                 <a href="#offcanvasnav" class="hamburger-icon js-toolbar menu-btn">
                                     <span></span>
@@ -150,21 +173,6 @@
                                     <span></span>
                                     <span></span>
                                     <span></span>
-                                </a>
-                            </div>
-                            <div class="toolbar-item">
-                                <a href="wishlist.html" class="toolbar-btn">
-                                    <i class="flaticon-heart"></i>
-                                </a>
-                            </div>
-                            <div class="toolbar-item mini-cart-btn">
-                                <a href="#miniCart" class="toolbar-btn js-toolbar">
-                                        <span class="mini-cart-btn__icon">
-                                            <i class="flaticon-bag"></i>
-                                        </span>
-                                    <sup class="mini-cart-btn__count">
-                                        02
-                                    </sup>
                                 </a>
                             </div>
                         </div>

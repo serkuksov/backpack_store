@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Авторизация
+{% endblock %}
+
+{% block breadcrumb %}
+    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">Авторизация</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'products:index' %}">Главная</a></li>
+                        <li class="current"><span>Авторизация</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <div class="main-content-wrapper">
+        <div class="page-content-inner pt--75 pb--80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-sm--50">
+                        <div class="login-box">
+                            {% if request.user.is_authenticated %}
+                                <h3>Вы уже вошли как {{ request.user }}</h3>
+                            {% else %}
+                                <h3 class="heading__tertiary mb--30">Войти</h3>
+                                <form class="form form--login" method="post">
+                                    {% csrf_token %}
+                                    {% for f in form %}
+                                        <div class="form__group mb--20">
+                                            <label class="form__label" for="{{ f.name }}">{{ f.label }} <span
+                                                    class="required">*</span></label>
+                                            {{ f }}
+                                            <div style="color: red">
+                                                {{ f.errors }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="d-flex align-items-center mb--20">
+                                        <div class="form__group mr--30">
+                                            <input type="submit" value="Войти" class="btn btn-size-sm">
+                                        </div>
+                                        <div class="form__group">
+                                            <label class="form__label checkbox-label" for="store_session">
+                                                <input type="checkbox" name="store_session" id="store_session">
+                                                <span>Запомни меня</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="forgot-pass" href="#">
+                                            <h6>Забыли пароль?</h6>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{% url 'users_detail:register' %}">
+                                            <h6>Зарегистрироваться</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
