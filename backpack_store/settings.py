@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'products',
     'phonenumber_field',
     'users_detail',
+    'carts',
 ]
 
 MIDDLEWARE = [
