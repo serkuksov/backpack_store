@@ -44,10 +44,17 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            <form action=""></form>
                                             {% for cart in cart_list %}
                                                 <tr>
-                                                    <td class="product-remove text-left"><a href=""><i
-                                                            class="flaticon-cross"></i></a></td>
+                                                    <td class="product-remove text-left">
+                                                        <form action="{% url 'carts:delete' pk=cart.id %}"
+                                                              method="post" name="delete-{{ cart.id }}">
+                                                            {% csrf_token %}
+                                                            <a><i class="flaticon-cross"
+                                                                  onclick="document.forms['delete-{{ cart.id }}'].submit();"></i></a>
+                                                        </form>
+                                                    </td>
                                                     <td class="product-thumbnail text-left">
                                                         <img src="{{ cart.product.images.all.0.image.url }}"
                                                              alt="Product Thumnail">
@@ -81,16 +88,10 @@
                                 </div>
                             </div>
                             <div class="row no-gutters border-top pt--20 mt--20">
-                                <div class="col-sm-6">
-                                    <div class="coupon">
-                                        <input type="text" id="coupon" name="coupon" class="cart-form__input"
-                                               placeholder="Coupon Code">
-                                        <button type="submit" class="cart-form__btn">Apply Coupon</button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 text-sm-right">
-                                    <button type="submit" class="cart-form__btn">Clear Cart</button>
-                                    <button type="submit" class="cart-form__btn">Update Cart</button>
+
+                                <div class="col-sm-12 text-sm-right">
+                                    <button type="submit" class="cart-form__btn">Очистить корзину</button>
+                                    <button type="submit" class="cart-form__btn">Обновить корзину</button>
                                 </div>
                             </div>
                         </form>
