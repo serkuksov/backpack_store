@@ -5,4 +5,8 @@ from carts.models import Cart
 
 @admin.register(Cart)
 class AdminCart(admin.ModelAdmin):
-    pass
+    list_display = (
+        'user',
+        'product',
+        'quantity',
+    )

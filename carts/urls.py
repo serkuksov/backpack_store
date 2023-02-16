@@ -7,5 +7,5 @@ from carts.views import *
 
 urlpatterns = [
     path('', CartListView.as_view(), name='cart_list'),
-    path('delete/<int:pk>/', CartDeleteView.as_view(), name='delete'),
+    path('clear_cart/', clear_cart, name='clear_cart'),
 ]

@@ -13,6 +13,7 @@ class Cart(models.Model):
         verbose_name = 'Корзина товаров'
         verbose_name_plural = 'Корзины товаров'
         unique_together = ('user', 'product',)
+        ordering = ('-id',)
 
     def __str__(self):
         return f'{self.user} - {self.product}'
