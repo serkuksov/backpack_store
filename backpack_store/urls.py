@@ -24,6 +24,7 @@ urlpatterns = [
     path('user/', include(('users_detail.urls', 'users_detail'))),
     path('cart/', include(('carts.urls', 'carts'))),
     path('likes/', include(('likes.urls', 'likes'))),
+    path('API/v1/', include(('API.urls', 'API'))),
     # path('silk/', include('silk.urls', namespace='silk')),
 ]
 

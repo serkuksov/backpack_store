@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users_detail',
     'carts',
     'likes',
+    'API',
 ]
 
 MIDDLEWARE = [
