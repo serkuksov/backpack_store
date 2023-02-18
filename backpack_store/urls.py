@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include(('products.urls', 'products'))),
     path('user/', include(('users_detail.urls', 'users_detail'))),
     path('cart/', include(('carts.urls', 'carts'))),
-    path('API/', include(('API.urls', 'API'))),
+    path('API/v1/', include(('API.urls', 'API'))),
     path('silk/', include('silk.urls', namespace='silk')),
 ]
 
