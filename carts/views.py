@@ -47,6 +47,16 @@ class CartListView(LoginRequiredMixin, FormView):
 def clear_cart(request):
     cart = Cart.objects.filter(user=request.user)
     cart.delete()
-    # if elm in cart:
-    #     elm.delete()
     return redirect('carts:cart_list')
+
+
+@login_required
+def add_cart(request, pk):
+    cart = Cart.objects.filter(user=request.user, product=pk)
+    if cart.exists():
+        cart = cart.first()
+        cart.quantity += 1
+        cart.save()
+    else:
+        cart = Cart.objects.create(user=request.user, product_id=pk)
+    return redirect(request.META['HTTP_REFERER'])

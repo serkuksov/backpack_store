@@ -32,6 +32,9 @@
                                 <h3>Вы уже вошли как {{ request.user }}</h3>
                             {% else %}
                                 <h3 class="heading__tertiary mb--30">Войти</h3>
+                                <div style="color: red">
+                                    {{ form.non_field_errors }}
+                                </div>
                                 <form class="form form--login" method="post">
                                     {% csrf_token %}
                                     {% for f in form %}

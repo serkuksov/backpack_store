@@ -35,13 +35,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'silk',
     'rest_framework',
+    # 'silk',
     'products',
     'phonenumber_field',
     'users_detail',
     'carts',
-    'API',
+    'likes',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'carts.middlewares.count_cart_user_context_processor',
             ],
         },
     },
@@ -132,3 +133,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'users_detail:login'
+LOGIN_URL = 'users_detail:login'

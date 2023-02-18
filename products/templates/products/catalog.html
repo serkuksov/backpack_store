@@ -78,7 +78,8 @@
                                                             <i class="fa fa-heart-o"></i>
                                                             <span class="sr-only">Add to wishlist</span>
                                                         </a>
-                                                        <a href="cart.html" class="action-btn">
+                                                        <a href="{% url 'carts:add_cart' pk=product.id %}"
+                                                           class="action-btn">
                                                             <i class="fa fa-shopping-cart"></i>
                                                             <span class="sr-only">Add To Cart</span>
                                                         </a>
@@ -133,7 +134,8 @@
                                                         {{ product.description }}
                                                     </p>
                                                     <div class="d-flex product__list-action">
-                                                        <a href="cart.html" class="btn btn-size-sm">В корзину</a>
+                                                        <a href="{% url 'carts:add_cart' pk=product.id %}"
+                                                           class="btn btn-size-sm">В корзину</a>
                                                         </a>
                                                     </div>
                                                 </div>

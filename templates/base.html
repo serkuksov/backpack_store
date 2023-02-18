@@ -86,60 +86,26 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="mainmenu__item menu-item-has-children position-relative">
-                                        <a href="#" class="mainmenu__link">Blog</a>
-                                        <div class="inner-menu">
-                                            <ul class="sub-menu">
-                                                <li class="has-children">
-                                                    <a href="#">Blog Grid</a>
-                                                    <ul class="sub-menu">
-                                                        <li>
-                                                            <a href="blog-left-sidebar.html">Left Sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog.html">Right Sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-01-column.html">One Column</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-02-columns.html">Two Columns</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-03-columns.html">Three Columns</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="has-children">
-                                                    <a href="#">Blog Details</a>
-                                                    <ul class="sub-menu">
-                                                        <li>
-                                                            <a href="blog-details-image.html">Image Post</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-details-audio.html">Audio Post</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-details-video.html">Video Post</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-details-gallery.html">Gallery Post</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
                                     <li class="mainmenu__item">
                                         <a href="contact-us.html" class="mainmenu__link">Contact Us</a>
                                     </li>
+                                    {% if request.user.is_staff %}
+                                        <li class="mainmenu__item">
+                                            <a href="admin/" class="mainmenu__link">Администрирование</a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </nav>
                         </div>
                         <div class="header__col header__right">
                             {% if request.user.is_authenticated %}
+                                <div class="toolbar-item d-none d-lg-block">
+                                    <a href="#" class="toolbar-btn">
+                                        <span>{{ request.user }}</span>
+                                    </a>
+                                </div>
                                 <div class="toolbar-item">
-                                    <a href="wishlist.html" class="toolbar-btn">
+                                    <a href="{% url 'likes:like_list' %}" class="toolbar-btn">
                                         <i class="flaticon-heart"></i>
                                     </a>
                                 </div>
@@ -149,7 +115,7 @@
                                             <i class="flaticon-bag"></i>
                                         </span>
                                         <sup class="mini-cart-btn__count">
-                                            02
+                                            {{ count_cart_user }}
                                         </sup>
                                     </a>
                                 </div>

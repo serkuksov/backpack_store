@@ -136,9 +136,8 @@
                                                value="1" min="1">
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-shape-square btn-size-sm"
-                                        onclick="window.location.href='cart.html'">
-                                    В КОРЗИНУ
+                                <button type="button" class="btn btn-shape-square btn-size-sm">
+                                    <a href="{% url 'carts:add_cart' pk=product.id %}">В КОРЗИНУ</a>
                                 </button>
                             </div>
                             <div class="product-footer-meta">
