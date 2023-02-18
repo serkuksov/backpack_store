@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load base_tag %}
+
+
+{% block title %}
+    Избраное
+{% endblock %}
+
+{% block breadcrumb %}
+    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">Избраное</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'products:index' %}">Главная</a></li>
+                        <li class="current"><span>Избраное</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+
+    <!-- Main Content Wrapper Start -->
+    <div class="main-content-wrapper">
+        <div class="page-content-inner ptb--80 ptb-md--60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-content table-responsive">
+                            {% if like_list %}
+                                <table class="table table-style-2 wishlist-table text-center">
+                                <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                    <th class="text-left">Товар</th>
+                                    <th>Цена</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {% for like in like_list %}
+                                        <td class="product-remove text-left"><a
+                                                href="{% url 'likes:del_like' pk=like.product.id %}"><i
+                                                class="flaticon-cross"></i></a></td>
+                                        <td class="product-thumbnail text-left">
+                                            <img src="{{ like.product.images.all.0.image.url }}"
+                                                 alt="Product Thumnail">
+                                        </td>
+                                        <td class="product-name text-left wide-column">
+                                            <h3>
+                                                <a href="{% url 'products:detail' pk=like.product.id %}">{{ like.product }}</a>
+                                            </h3>
+                                        </td>
+                                        <td class="product-price">
+                                                    <span class="product-price-wrapper">
+                                                        <span class="money">{{ like.product.price }}</span>
+                                                    </span>
+                                        </td>
+                                        <td class="product-action-btn">
+                                            <a href="{% url 'carts:add_cart' pk=like.product.id %}" class="btn">Добавить
+                                                в корзину</a>
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                                </tbody>
+                            {% else %}
+                                <h3>Нет лайкнутых товаров:)</h3>
+                            {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Wrapper Start -->
+
+{% endblock %}
