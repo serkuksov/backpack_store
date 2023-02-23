@@ -93,10 +93,12 @@
                                 </div>
                                 <div class="row no-gutters border-top pt--20 mt--20">
                                     <div class="col-sm-12 text-sm-right">
-                                        <button type="submit" class="cart-form__btn"
-                                                onclick="document.location.href = '{% url 'carts:clear_cart' %}';">
-                                            Очистить
-                                            корзину
+
+                                        <button type="submit" class="cart-form__btn">
+                                            <a href="{% url 'carts:clear_cart' %}">
+                                                Очистить
+                                                корзину
+                                            </a>
                                         </button>
                                         <button type="submit" class="cart-form__btn">Обновить корзину</button>
                                     </div>

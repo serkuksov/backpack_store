@@ -43,8 +43,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    {% for like in like_list %}
+                                {% for like in like_list %}
+                                    <tr>
                                         <td class="product-remove text-left"><a
                                                 href="{% url 'likes:del_like' pk=like.product.id %}"><i
                                                 class="flaticon-cross"></i></a></td>
@@ -66,8 +66,8 @@
                                             <a href="{% url 'carts:add_cart' pk=like.product.id %}" class="btn">Добавить
                                                 в корзину</a>
                                         </td>
-                                    {% endfor %}
-                                </tr>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             {% else %}
                                 <h3>Нет лайкнутых товаров:)</h3>
