@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tags %}
 
 {% block title %}
     {{ title }}
@@ -118,24 +119,19 @@
                     <div class="col-xl-4 offset-xl-1 col-lg-5 product-main-details mt-md--50">
                         <div class="product-summary pl-lg--30 pl-md--0">
                             <div class="product-rating d-flex mb--20">
-                                <div class="star-rating star-four">
-                                    <span>Rated <strong class="rating">5.00</strong> out of 5</span>
-                                </div>
+                                {% for i in product.arefmetical_averages_review|range_templates %}
+                                    <span><i class="fa fa-star"></i></span>
+                                {% endfor %}
+                                {% if not product.arefmetical_averages_review %}
+                                    <div class="star-rating star-four"></div>
+                                {% endif %}
                             </div>
                             <h3 class="product-title mb--20">{{ product.name }}</h3>
                             <p class="product-short-description mb--20">{{ product.description }}</p>
                             <div class="product-price-wrapper mb--25">
                                 <span class="money">{{ product.price }} р.</span>
                             </div>
-                            <div
-                                    class="product-action d-flex flex-sm-row align-items-sm-center flex-column align-items-start mb--30">
-                                <div class="quantity-wrapper d-flex align-items-center mr--30 mr-xs--0 mb-xs--30">
-                                    <label class="quantity-label" for="pro-qty">Количество:</label>
-                                    <div class="quantity">
-                                        <input type="number" class="quantity-input" name="pro-qty" id="pro-qty"
-                                               value="1" min="1">
-                                    </div>
-                                </div>
+                            <div class="product-action d-flex flex-sm-row align-items-sm-center flex-column align-items-start mb--30">
                                 <button type="button" class="btn btn-shape-square btn-size-sm">
                                     <a href="{% url 'carts:add_cart' pk=product.id %}">В КОРЗИНУ</a>
                                 </button>
@@ -162,7 +158,7 @@
                                 </a>
                                 <a class="nav-link" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews"
                                    role="tab" aria-selected="true">
-                                    <span>Отзывы(1)</span>
+                                    <span>Отзывы({{ product.count_review }})</span>
                                 </a>
                             </div>
                             <div class="tab-content" id="product-tabContent">
@@ -196,88 +192,74 @@
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel"
                                      aria-labelledby="nav-reviews-tab">
                                     <div class="product-reviews">
-                                        <h3 class="review__title">1 review for Black Blazer</h3>
+                                        <h3 class="review__title">Отзывы для {{ product.name }}</h3>
                                         <ul class="review__list">
-                                            <li class="review__item">
-                                                <div class="review__container">
-                                                    <img src="../../../static/assets/img/others/comment-1.jpg"
-                                                         alt="Review Avatar"
-                                                         class="review__avatar">
-                                                    <div class="review__text">
-                                                        <div
-                                                                class="d-flex flex-sm-row flex-column justify-content-between">
-                                                            <div class="review__meta">
-                                                                <strong class="review__author">John Snow </strong>
-                                                                <span class="review__dash">-</span>
-                                                                <span class="review__published-date">November 20,
-                                                                            2018</span>
-                                                            </div>
-                                                            <div class="product-rating">
-                                                                <div class="star-rating star-five">
-                                                                            <span>Rated <strong
-                                                                                    class="rating">5.00</strong>
-                                                                                out of 5</span>
+                                            {% for review in product.review_set.all %}
+                                                <li class="review__item">
+                                                    <div class="review__container">
+                                                        <div class="review__text">
+                                                            <div class="d-flex flex-sm-row flex-column justify-content-between">
+                                                                <div class="review__meta">
+                                                                    <strong class="review__author">{{ review.user }} </strong>
+                                                                    <span class="review__dash">-</span>
+                                                                    <span class="review__published-date">{{ review.created_date }}</span>
+                                                                </div>
+                                                                <div class="product-rating">
+                                                                    {% for i in review.rating|range_templates %}
+                                                                        <span><i class="fa fa-star"></i></span>
+                                                                    {% endfor %}
                                                                 </div>
                                                             </div>
+                                                            <p class="review__description">{{ review.text_review }}</p>
                                                         </div>
-                                                        <p class="review__description">Aliquam egestas libero ac
-                                                            turpis pharetra, in vehicula lacus scelerisque.
-                                                            Vestibulum ut sem laoreet, feugiat tellus at, hendrerit
-                                                            arcu.</p>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            {% endfor %}
                                         </ul>
                                         <div class="review-form-wrapper">
                                             <div class="row">
                                                 <div class="col-lg-8">
-                                                    <span class="reply-title">Add a review</span>
-                                                    <form action="#" class="form pr--30">
-                                                        <div class="form-notes mb--20">
-                                                            <p>Your email address will not be published. Required
-                                                                fields are marked <span class="required">*</span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="form__group mb--10">
-                                                            <label class="form__label d-block mb--10">Your
-                                                                Ratings</label>
-                                                            <div class="rating">
-                                                                <span><i class="fa fa-star"></i></span>
-                                                                <span><i class="fa fa-star"></i></span>
-                                                                <span><i class="fa fa-star"></i></span>
-                                                                <span><i class="fa fa-star"></i></span>
-                                                                <span><i class="fa fa-star"></i></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form__group mb--10">
-                                                            <label class="form__label d-block mb--10" for="email">Your
-                                                                Review<span class="required">*</span></label>
-                                                            <textarea name="review" id="review"
-                                                                      class="form__input form__input--textarea"></textarea>
-                                                        </div>
-                                                        <div class="form__group mb--20">
-                                                            <label class="form__label d-block mb--10"
-                                                                   for="name">Name<span
-                                                                    class="required">*</span></label>
-                                                            <input type="text" name="name" id="name"
-                                                                   class="form__input">
-                                                        </div>
-                                                        <div class="form__group mb--20">
-                                                            <label class="form__label d-block mb--10"
-                                                                   for="email">Email<span
-                                                                    class="required">*</span></label>
-                                                            <input type="email" name="email" id="email"
-                                                                   class="form__input">
-                                                        </div>
-                                                        <div class="form__group">
-                                                            <div class="form-row">
-                                                                <div class="col-12">
-                                                                    <input type="submit" value="Submit Now"
-                                                                           class="btn btn-size-md">
+                                                    {% if request.user.is_authenticated %}
+                                                        {% if not is_review_user %}
+                                                            <h4><span class="reply-title">Добавить отзыв</span></h4>
+                                                            <form action="#" class="form pr--30" method="post">
+                                                                {% csrf_token %}
+                                                                <div style="color: red">
+                                                                    {{ form.non_field_errors }}
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                                <div class="form__group mb--10">
+                                                                    <label class="form__label d-block mb--10">Ваша
+                                                                        оценка:</label>
+                                                                    <div class="quantity">
+                                                                        {{ form.rating }}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form__group mb--10">
+                                                                    <label class="form__label d-block mb--10"
+                                                                           for="email">
+                                                                        Введите текст отзыва:
+                                                                    </label>
+                                                                    {{ form.text_review }}
+                                                                </div>
+                                                                <div class="form__group">
+                                                                    <div class="form-row">
+                                                                        <div class="col-12">
+                                                                            <input type="submit" value="Отправить"
+                                                                                   class="btn btn-size-md">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {{ form.user }}
+                                                                {{ form.product }}
+                                                            </form>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <h4><span class="reply-title">Добавить отзыв</span></h4>
+                                                        <a class="nav-link"
+                                                           href="{% url 'users_detail:login' %}?next={% url 'products:detail' pk=product.id %}">
+                                                            <span>Войти</span>
+                                                        </a>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

@@ -91,7 +91,8 @@
                                     </li>
                                     {% if request.user.is_staff %}
                                         <li class="mainmenu__item">
-                                            <a href="admin/" class="mainmenu__link">Администрирование</a>
+                                            <a href="{% url 'admin:index' %}"
+                                               class="mainmenu__link">Администрирование</a>
                                         </li>
                                     {% endif %}
                                 </ul>
@@ -114,9 +115,11 @@
                                         <span class="mini-cart-btn__icon">
                                             <i class="flaticon-bag"></i>
                                         </span>
-                                        <sup class="mini-cart-btn__count">
-                                            {{ count_cart_user }}
-                                        </sup>
+                                        {% if count_cart_user %}
+                                            <sup class="mini-cart-btn__count">
+                                                {{ count_cart_user }}
+                                            </sup>
+                                        {% endif %}
                                     </a>
                                 </div>
                                 <div class="toolbar-item d-none d-lg-block">

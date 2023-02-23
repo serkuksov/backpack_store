@@ -1,11 +1,15 @@
-from django.db.models import Prefetch, Subquery, OuterRef, Count, Q
+from django.db.models import Prefetch, Subquery, OuterRef, Count, Q, Avg
 from django.shortcuts import render, HttpResponse
-from django.views.generic import View, DetailView, ListView
+from django.views.generic import View, DetailView, ListView, CreateView
 
 from products.models import *
+from products import servises
+from reviews.models import *
+from reviews.forms import *
+from reviews.views import *
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DetailView, ReviewCreateView):
     """Карточка продукта"""
     model = Product
     slug_field = 'id'
@@ -14,35 +18,45 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = (queryset.select_related('brand', 'category').
-                    prefetch_related(Prefetch('images', queryset=Image.objects.all())))
+                    prefetch_related(
+            Prefetch('images', queryset=Image.objects.all()),
+            Prefetch('review_set', queryset=Review.objects.all()),
+        ).
+                    annotate(count_review=Count('review')).
+                    annotate(arefmetical_averages_review=Avg('review__rating'))
+                    )
         return queryset
 
+    def get_initial(self):
+        return {
+            'user': self.request.user,
+            'product': self.object,
+        }
+
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        top_products = (Product.objects.
-                        prefetch_related(Prefetch('images', queryset=Image.objects.all())).
-                        order_by('?')[:4])
+        context = super(DetailView, self).get_context_data(**kwargs)
         context = context | {
             'title': context['product'].name,
-            'top_products': top_products,
+            'top_products': servises.get_top_products(),
+            'is_review_user': servises.is_review_user(product=self.object,
+                                                      user=self.request.user) if self.request.user.is_active else 0,
         }
+        context = context | super(ReviewCreateView, self).get_context_data(**kwargs)
         return context
+
+    def form_invalid(self, form):
+        self.object = self.get_object()
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class IndexView(View):
     """Главная страница"""
 
     def get(self, request):
-        top_products = (Product.objects.
-                        prefetch_related(Prefetch('images', queryset=Image.objects.all())).
-                        order_by('?')[:4])
-        new_products = (Product.objects.
-                        prefetch_related(Prefetch('images', queryset=Image.objects.all())).
-                        order_by('-id')[:8])
         context = {
             'title': 'Главная страница',
-            'top_products': top_products,
-            'new_products': new_products,
+            'top_products': servises.get_top_products(),
+            'new_products': servises.get_new_products(),
         }
         return render(request, 'products/index.html', context)
 
