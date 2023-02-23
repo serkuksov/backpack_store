@@ -74,7 +74,8 @@
                                                     <a href="{% url 'products:detail' pk=product.id %}"
                                                        class="product__overlay"></a>
                                                     <div class="product__action">
-                                                        <a href="wishlist.html" class="action-btn">
+                                                        <a href="{% url 'likes:add_like' pk=product.id %}"
+                                                           class="action-btn">
                                                             <i class="fa fa-heart-o"></i>
                                                             <span class="sr-only">Add to wishlist</span>
                                                         </a>

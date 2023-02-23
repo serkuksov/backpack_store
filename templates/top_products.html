@@ -1,3 +1,5 @@
+{% load tags %}
+
 <div class="row mb--77 mb-md--57">
     <div class="col-12">
         <div class="element-carousel slick-vertical-center" data-slick-options='{
@@ -24,13 +26,14 @@
                         <div class="product__inner">
                             <div class="product__image">
                                 <figure class="product__image--holder">
-                                    <img src="{{ top_product.images.all.0.image.url }}"
-                                         alt="Product">
+                                    <a href="{% url 'products:detail' pk=top_product.id %}" class="product-overlay">
+                                        <img src="{{ top_product.images.all.0.image.url }}" alt="Product">
+                                    </a>
                                 </figure>
                                 <a href="{% url 'products:detail' pk=top_product.id %}"
                                    class="product-overlay"></a>
                                 <div class="product__action">
-                                    <a href="wishlist.html" class="action-btn">
+                                    <a href="{% url 'likes:add_like' pk=top_product.id %}" class="action-btn">
                                         <i class="fa fa-heart-o"></i>
                                         <span class="sr-only">Add to wishlist</span>
                                     </a>
@@ -50,15 +53,11 @@
                                         <span class="sign">р</span>
                                     </div>
                                 </div>
-                                <div class="product__info--right">
-                                                        <span class="product__rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </span>
-                                </div>
+                            </div>
+                            <div class="product__info--right">
+                                {% for i in top_product.arefmetical_averages_review|range_templates %}
+                                    <span><i class="fa fa-star"></i></span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

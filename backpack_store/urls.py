@@ -6,7 +6,7 @@ from django.conf import settings
 from . import yasg
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', include(('products.urls', 'products'))),
     path('user/', include(('users_detail.urls', 'users_detail'))),
     path('cart/', include(('carts.urls', 'carts'))),
