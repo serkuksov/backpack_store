@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     # 'silk',
+    'drf_yasg',
     'products',
     'phonenumber_field',
     'users_detail',
@@ -133,5 +134,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = 'users_detail:login'
 LOGIN_URL = 'users_detail:login'
+LOGOUT_REDIRECT_URL = 'users_detail:login'
+LOGOUT_URL = 'users_detail:logout'
