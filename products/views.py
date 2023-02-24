@@ -14,6 +14,7 @@ class ProductDetailView(DetailView, ReviewCreateView):
     Отображает информацию о продукте, а также выводит форму для отправки отзыва"""
     model = Product
     slug_field = 'id'
+    template_name = 'products/detail.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
