@@ -5,7 +5,10 @@ from . import models
 
 
 class ReviewForm(forms.ModelForm):
-    rating = forms.IntegerField(max_value=5, min_value=1, widget=forms.NumberInput(attrs={'class': "quantity-input"}),
+    "Форма для ввода отзывов"
+    rating = forms.IntegerField(max_value=5,
+                                min_value=1,
+                                widget=forms.NumberInput(attrs={'class': "quantity-input"}),
                                 initial=5)
 
     class Meta:

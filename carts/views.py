@@ -9,6 +9,7 @@ from django import forms
 
 from carts.forms import SetCartForms
 from carts.models import Cart
+from carts.servises import get_carts, get_total_price_carts
 
 
 class CartListView(LoginRequiredMixin, FormView):
@@ -19,11 +20,7 @@ class CartListView(LoginRequiredMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['queryset'] = (Cart.objects.
-                              filter(user=self.request.user).
-                              select_related('product').
-                              prefetch_related('product__images').
-                              annotate(total_price=(F('quantity') * F('product__price'))))
+        kwargs['queryset'] = get_carts(user=self.request.user)
         return kwargs
 
     def form_valid(self, form):
@@ -37,9 +34,7 @@ class CartListView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cart_items = Cart.objects.filter(user=self.request.user)
-        total_price = cart_items.aggregate(total_price=Sum(F('quantity') * F('product__price')))
-        context = context | total_price
+        context = context | get_total_price_carts(user=self.request.user)
         return context
 
 

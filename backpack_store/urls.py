@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include(('products.urls', 'products'))),
     path('user/', include(('users_detail.urls', 'users_detail'))),
     path('cart/', include(('carts.urls', 'carts'))),
+    path('order/', include(('orders.urls', 'orders'))),
     path('likes/', include(('likes.urls', 'likes'))),
     path('API/v1/', include(('API.urls', 'API'))),
     path('auto_drf/', include('rest_framework.urls', namespace='rest_framework')),

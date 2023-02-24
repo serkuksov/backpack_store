@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Оформление заказа
+{% endblock %}
+
+{% block breadcrumb %}
+    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">Оформление заказа</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'products:index' %}">Главная</a></li>
+                        <li class="current"><span>Оформление заказа</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <!-- Main Content Wrapper Start -->
+    <form class="form form--checkout" method="post">
+        {% csrf_token %}
+        <div class="main-content-wrapper">
+            <div class="page-content-inner pt--80 pt-md--60 pb--72 pb-md--60">
+                <div class="container">
+                    <div class="row">
+                        <!-- Checkout Area Start -->
+                        <div class="col-lg-6">
+                            <div class="checkout-title mt--10">
+                                <h2>Адрес доставки</h2>
+                            </div>
+                            <div class="checkout-form">
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="billing_city" class="form__label">Страна <span
+                                                class="required">*</span></label>
+                                        {{ form.country }}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="billing_state" class="form__label">Регион <span
+                                                class="required">*</span></label>
+                                        {{ form.region }}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="billing_phone" class="form__label">Город <span
+                                                class="required">*</span></label>
+                                        {{ form.city }}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="billing_email" class="form__label">Адрес <span
+                                                class="required">*</span></label>
+                                        {{ form.address }}
+                                    </div>
+                                </div>
+                                <div class="form-row mb--20">
+                                    <div class="form__group col-12">
+                                        <label for="billing_email" class="form__label">Почтовый индекс <span
+                                                class="required">*</span></label>
+                                        {{ form.postal_code }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 offset-xl-1 col-lg-6 mt-md--40">
+                            <div class="order-details">
+                                <div class="checkout-title mt--10">
+                                    <h2>Ваш заказ</h2>
+                                </div>
+                                <div class="table-content table-responsive mb--30">
+                                    <table class="table order-table order-table-2">
+                                        <thead>
+                                        <tr>
+                                            <th>Продукт</th>
+                                            <th class="text-right">Цена</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for cart in carts %}
+                                            <tr>
+                                                <th>{{ cart.product.name }}
+                                                    <strong><span>&#10005;</span>{{ cart.quantity }}</strong>
+                                                </th>
+                                                <td class="text-right">{{ cart.total_price }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tr class="order-total">
+                                            <th>Итоговая цена</th>
+                                            <td class="text-right"><span
+                                                    class="order-total-ammount">{{ total_price_carts }}</span></td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="checkout-payment">
+                                    <div class="payment-group mt--20">
+                                        <button type="submit" class="btn btn-size-md btn-fullwidth">Оформить заказ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Checkout Area End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Main Content Wrapper Start -->
+{% endblock %}

@@ -10,10 +10,10 @@ from reviews.views import *
 
 
 class ProductDetailView(DetailView, ReviewCreateView):
-    """Карточка продукта"""
+    """Карточка продукта.
+    Отображает информацию о продукте, а также выводит форму для отправки отзыва"""
     model = Product
     slug_field = 'id'
-    template_name = 'products/detail.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -28,6 +28,7 @@ class ProductDetailView(DetailView, ReviewCreateView):
         return queryset
 
     def get_initial(self):
+        """Задает начальные параметры для формы ввода отзыва"""
         return {
             'user': self.request.user,
             'product': self.object,
