@@ -1,8 +1,12 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView, UpdateView
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 
 from orders.servises import get_orders
 from users_detail.forms import *

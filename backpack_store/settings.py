@@ -139,3 +139,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'users_detail:login'
 LOGOUT_REDIRECT_URL = 'users_detail:login'
 LOGOUT_URL = 'users_detail:logout'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'mails'
