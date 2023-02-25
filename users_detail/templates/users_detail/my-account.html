@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Аккаунт
+{% endblock %}
+
+{% block breadcrumb %}
+    <section class="page-title-area bg-color" data-bg-color="#f4f4f4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="page-title">Аккаунт</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'products:index' %}">Главная</a></li>
+                        <li class="current"><span>Аккаунт</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content Wrapper Start -->
+    <div class="main-content-wrapper">
+        <div class="page-content-inner ptb--80 ptb-md--60 pb-sm--55">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="user-dashboard-tab flex-column flex-md-row">
+                            <div class="user-dashboard-tab__head nav flex-md-column" role="tablist"
+                                 aria-orientation="vertical">
+                                <a class="nav-link active" data-toggle="pill" role="tab" href="#dashboard"
+                                   aria-controls="dashboard" aria-selected="true">Общая информация</a>
+                                <a class="nav-link" data-toggle="pill" role="tab" href="#orders" aria-controls="orders"
+                                   aria-selected="true">Заказы</a>
+                                <a class="nav-link" data-toggle="pill" role="tab" href="#accountdetails"
+                                   aria-controls="accountdetails" aria-selected="true">Информация об аккаунте</a>
+                                <a class="nav-link" href="{% url 'users_detail:logout' %}">Выйти</a>
+                            </div>
+                            <div class="user-dashboard-tab__content tab-content">
+                                <div class="tab-pane fade show active" id="dashboard">
+                                    <p>Привет <strong>{{ user.first_name }}</strong> (не
+                                        <strong>{{ user.first_name }}</strong>? <a
+                                                href="{% url 'users_detail:logout' %}">Выйти</a>)</p>
+                                    <p>Из панели управления вашей учетной записи. вы можете легко проверять и
+                                        просматривать свои последние заказы, управлять адресами доставки и выставления
+                                        счетов, а также редактировать свой пароль и данные учетной записи.</p>
+                                </div>
+                                <div class="tab-pane fade" id="orders">
+                                    <div class="table-content table-responsive">
+                                        <table class="table text-center">
+                                            <thead>
+                                            <tr>
+                                                <th>Номер заказа</th>
+                                                <th>Дата заказа</th>
+                                                <th>Статус</th>
+                                                <th>Продукты</th>
+                                                <th>Стоимость</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td>{{ order.id }}</td>
+                                                    <td class="wide-column">{{ order.create_date }}</td>
+                                                    <td>{{ order.status }}</td>
+                                                    <td class="wide-column">
+                                                        {% for product in order.orderdetails_set.all %}
+                                                            <a href="{% url 'products:detail' pk=product.product.id %}">
+                                                                <p>{{ product.product.name }}</p>
+                                                            </a>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td class="wide-column">{{ order.total_price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="addresses">
+                                    <p class="mb--20">The following addresses will be used on the checkout page by
+                                        default.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-sm--20">
+                                            <div class="text-block">
+                                                <h4 class="mb--20">Billing address</h4>
+                                                <a href="">Edit</a>
+                                                <p>You have not set up this type of address yet.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="text-block">
+                                                <h4 class="mb--20">Shopping address</h4>
+                                                <a href="">Edit</a>
+                                                <p>You have not set up this type of address yet.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="accountdetails">
+                                    <form action="#" class="form form--account" method="post">
+                                        {% csrf_token %}
+                                        <div class="row mb--20">
+                                            <div class="col-md-6 mb-sm--20">
+                                                <div class="form__group">
+                                                    <label class="form__label" for="f_name">Имя <span
+                                                            class="required">*</span></label>
+                                                    {{ form.last_name }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form__group">
+                                                    <label class="form__label" for="l_name">Фамилия <span
+                                                            class="required">*</span></label>
+                                                    {{ form.first_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb--20">
+                                            <div class="col-12">
+                                                <div class="form__group">
+                                                    <label class="form__label" for="email">Email <span
+                                                            class="required">*</span></label>
+                                                    {{ form.email }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb--20">
+                                            <div class="col-12">
+                                                <div class="form__group">
+                                                    <label class="form__label" for="email">Телефон <span
+                                                            class="required">*</span></label>
+                                                    {{ form.phone }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form__group">
+                                                    <input type="submit" value="Сохранить" class="btn">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Wrapper Start -->
+{% endblock %}

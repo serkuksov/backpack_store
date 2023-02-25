@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.db import IntegrityError
 from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field import widgets
 
 from users_detail.models import UserDetail
 
@@ -49,8 +50,26 @@ class UserDetailChangeForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super(UserDetailChangeForm, self).__init__(*args, **kwargs)
-        self.fields['phone'].initial = self.instance.userdetail.phone
+        if UserDetail.objects.filter(user=self.instance).exists():
+            self.fields['phone'].initial = self.instance.userdetail.phone
 
     class Meta:
         model = get_user_model()
         fields = ('first_name', 'last_name', 'email', 'phone')
+
+
+class UpdateUserForm(UserDetailChangeForm):
+    """Форма редактирования данных пользователя"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phone'].widget = widgets.TextInput(attrs={'class': "form__input"})
+
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'email', 'phone')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': "form__input"}),
+            'last_name': forms.TextInput(attrs={'class': "form__input"}),
+            'email': forms.EmailInput(attrs={'class': "form__input"}),
+        }
