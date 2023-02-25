@@ -1,11 +1,8 @@
-from django.db.models import Prefetch, Subquery, OuterRef, Count, Q, Avg
-from django.shortcuts import render, HttpResponse
-from django.views.generic import View, DetailView, ListView, CreateView
+from django.db.models import Count
+from django.views.generic import View, DetailView, ListView
 
-from products.models import *
 from products import servises
 from reviews.models import *
-from reviews.forms import *
 from reviews.views import *
 
 
@@ -17,15 +14,7 @@ class ProductDetailView(DetailView, ReviewCreateView):
     template_name = 'products/detail.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = (queryset.select_related('brand', 'category').
-                    prefetch_related(
-            Prefetch('images', queryset=Image.objects.all()),
-            Prefetch('review_set', queryset=Review.objects.all()),
-        ).
-                    annotate(count_review=Count('review')).
-                    annotate(arefmetical_averages_review=Avg('review__rating'))
-                    )
+        queryset = servises.get_detail_product()
         return queryset
 
     def get_initial(self):
@@ -66,9 +55,6 @@ class IndexView(View):
 class ProductsView(ListView):
     """Страница каталога"""
     model = Product
-    queryset = (Product.objects.
-                prefetch_related(Prefetch('images', queryset=Image.objects.all())).
-                order_by('id'))
     template_name = 'products/catalog.html'
     paginate_by = 2
 
@@ -82,10 +68,10 @@ class ProductsView(ListView):
             elif sort == '3':
                 return '-price'
             elif sort == '0':
-                return 'id'
+                return '-arefmetical_averages_review'
 
     def get_queryset(self):
-        queryset = Product.objects
+        queryset = servises.get_products()
         category_id = self.request.GET.getlist('category')
         if category_id:
             queryset = queryset.filter(category__in=category_id)
@@ -103,7 +89,6 @@ class ProductsView(ListView):
         brand_id = self.request.GET.getlist('brand')
         if brand_id:
             queryset = queryset.filter(brand__in=brand_id)
-        queryset = queryset.prefetch_related(Prefetch('images', queryset=Image.objects.all()))
         ordering = self.get_ordering()
         if ordering:
             queryset = queryset.order_by(ordering)
@@ -134,13 +119,12 @@ class ProductsView(ListView):
                     ['По новизне', 1],
                     ['По возрастанию цены', 2],
                 ]
-        else:
-            return [
-                ['По популярности', 0],
-                ['По новизне', 1],
-                ['По возрастанию цены', 2],
-                ['По убыванию цены', 3],
-            ]
+        return [
+            ['По популярности', 0],
+            ['По новизне', 1],
+            ['По возрастанию цены', 2],
+            ['По убыванию цены', 3],
+        ]
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=None, **kwargs)
