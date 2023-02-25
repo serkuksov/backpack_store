@@ -9,10 +9,11 @@ from django import forms
 
 from carts.forms import SetCartForms
 from carts.models import Cart
-from carts.servises import get_carts, get_total_price_carts
+from carts.servises import get_carts_and_images, get_total_price_carts
 
 
 class CartListView(LoginRequiredMixin, FormView):
+    """Отобразить список продуктов в корзине товаров пользователя"""
     model = Cart
     form_class = SetCartForms
     template_name = 'carts/cart.html'
@@ -20,7 +21,7 @@ class CartListView(LoginRequiredMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['queryset'] = get_carts(user=self.request.user)
+        kwargs['queryset'] = get_carts_and_images(user=self.request.user)
         return kwargs
 
     def form_valid(self, form):
@@ -40,6 +41,7 @@ class CartListView(LoginRequiredMixin, FormView):
 
 @login_required
 def clear_cart(request):
+    """Очистить корзину товаров пользователя"""
     cart = Cart.objects.filter(user=request.user)
     cart.delete()
     return redirect('carts:cart_list')
@@ -47,11 +49,12 @@ def clear_cart(request):
 
 @login_required
 def add_cart(request, pk):
+    """Добавить товар в корзину пользователя"""
     cart = Cart.objects.filter(user=request.user, product=pk)
     if cart.exists():
         cart = cart.first()
         cart.quantity += 1
         cart.save()
     else:
-        cart = Cart.objects.create(user=request.user, product_id=pk)
+        Cart.objects.create(user=request.user, product_id=pk)
     return redirect(request.META['HTTP_REFERER'])

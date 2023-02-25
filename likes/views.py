@@ -1,28 +1,26 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum, F
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import ListView, DeleteView, CreateView, FormView, UpdateView
-from django import forms
+from django.shortcuts import redirect
+from django.views.generic import ListView
 
 from likes.models import Like
 
 
 class LikeListView(LoginRequiredMixin, ListView):
+    """Отображение списка избранного текущего пользователя"""
     model = Like
 
-    # template_name = 'likes/likes.html'
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        print(context)
-        return context
+    def get_queryset(self):
+        queryset = (Like.objects.
+                    filter(user=self.request.user).
+                    select_related('product').
+                    prefetch_related('product__images'))
+        return queryset
 
 
 @login_required
 def del_like(request, pk):
+    """Удаляет товар из избранного пользователя"""
     like = Like.objects.filter(user=request.user, product=pk)
     like.delete()
     return redirect('likes:like_list')
@@ -30,7 +28,8 @@ def del_like(request, pk):
 
 @login_required
 def add_like(request, pk):
+    """Добавляет товар в избранное пользователя"""
     like = Like.objects.filter(user=request.user, product=pk)
     if not like.exists():
-        like = Like.objects.create(user=request.user, product_id=pk)
+        Like.objects.create(user=request.user, product_id=pk)
     return redirect(request.META['HTTP_REFERER'])

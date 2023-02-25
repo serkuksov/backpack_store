@@ -1,6 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
@@ -10,13 +10,18 @@ from .models import *
 from .forms import *
 
 
-class AddressCreateView(generic.CreateView):
+class AddressCreateView(LoginRequiredMixin, generic.CreateView):
+    """Добавление адреса доставки заказа"""
     model = Address
     form_class = AddressForm
 
 
 class OrderCreateView(AddressCreateView):
+    """Оформление заказа и отображение продуктов в заказе"""
     template_name = 'orders/order_create.html'
+
+    def get_success_url(self):
+        return reverse('users_detail:account', kwargs={'pk': self.request.user.pk})
 
     @transaction.atomic
     def form_valid(self, form):
@@ -29,7 +34,7 @@ class OrderCreateView(AddressCreateView):
                                         product=cart.product,
                                         quantity=cart.quantity,
                                         unit_price=cart.product.price)
-        return HttpResponseRedirect(reverse('carts:clear_cart'))
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

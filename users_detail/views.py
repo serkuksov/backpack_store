@@ -1,19 +1,15 @@
-from django.contrib.auth import get_user_model, authenticate, login
-from django.contrib.auth.hashers import check_password
-from django.contrib.auth.models import User
-from django.db.models import Prefetch, Count, F, Sum
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 
 from orders.servises import get_orders
 from users_detail.forms import *
 
 
 class MyLoginView(LoginView):
-    """Странца входа"""
+    """Страница входа"""
     template_name = 'users_detail/login.html'
     form_class = LoginUserForm
 

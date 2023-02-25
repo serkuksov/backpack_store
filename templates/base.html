@@ -76,9 +76,6 @@
                                             </div>
                                         </li>
                                     {% endif %}
-                                    <li class="mainmenu__item">
-                                        <a href="contact-us.html" class="mainmenu__link">Contact Us</a>
-                                    </li>
                                     {% if request.user.is_staff %}
                                         <li class="mainmenu__item">
                                             <a href="{% url 'admin:index' %}"

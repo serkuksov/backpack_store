@@ -8,9 +8,14 @@ def get_carts(user):
     carts = (Cart.objects.
              filter(user=user).
              select_related('product').
-             prefetch_related('product__images').
              annotate(total_price=(F('quantity') * F('product__price')))
              )
+    return carts
+
+
+def get_carts_and_images(user):
+    """Получить корзину товаров пользователя c картинками товаров"""
+    carts = get_carts(user).prefetch_related('product__images')
     return carts
 
 
