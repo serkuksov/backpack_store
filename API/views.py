@@ -5,11 +5,13 @@ from rest_framework.decorators import action
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 from API.serializers import *
 from carts.models import Cart
 from products.models import *
 from products.servises import get_products
+from .filters import *
 
 
 class ProductListPagination(pagination.PageNumberPagination):
@@ -25,6 +27,8 @@ class ProductListAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
     pagination_class = ProductListPagination
     permission_classes = (permissions.AllowAny,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
 
 class BrandListView(APIView):
