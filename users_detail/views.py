@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -47,10 +48,17 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('users_detail:login')
 
     def form_valid(self, form):
-        """Метод переопределен для автоматического входа после регистрации"""
+        """Метод переопределен для автоматического входа и отправки письма
+        на почту после регистрации"""
         self.object = form.save()
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(self.request, user)
+        send_mail(subject='Добро пожаловать',
+                  message='Вы зарегистрировались на сайте ***',
+                  from_email='test@test.com',
+                  recipient_list=[str(self.request.user.email)],
+                  fail_silently=False,
+                  )
         return HttpResponseRedirect(self.get_success_url())
