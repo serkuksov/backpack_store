@@ -38,14 +38,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'silk',
     'drf_yasg',
-    'products',
+    'django_filters',
     'phonenumber_field',
+    'django_cleanup.apps.CleanupConfig',
+
+    'products',
     'users_detail',
     'carts',
     'likes',
-    'API',
     'orders',
     'reviews',
+
+    'API',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +146,9 @@ LOGOUT_URL = 'users_detail:logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'mails'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}
