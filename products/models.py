@@ -39,7 +39,7 @@ class Category(models.Model):
 
 class Color(models.Model):
     name = models.CharField('Цвет', max_length=32)
-    hex_color = models.CharField('Цвет в виде HEX', max_length=7, default="#ffffff")
+    hex_color = models.CharField('Цвет в виде HEX', max_length=7, default="#ffffff", unique=True)
 
     def __str__(self):
         return self.name

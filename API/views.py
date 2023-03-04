@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import permissions
-from rest_framework.decorators import action
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,8 +29,16 @@ class ProductListAPIView(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter,)
     filterset_class = ProductFilter
-    search_fields = ('name', 'brand', 'description',)
-    ordering_fields = ('id', 'price', 'arefmetical_averages_review',)
+    search_fields = (
+        'name',
+        'brand__name',
+        'description',
+    )
+    ordering_fields = (
+        'id',
+        'price',
+        'arefmetical_averages_review',
+    )
 
 
 class BrandListView(APIView):

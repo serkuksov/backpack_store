@@ -34,4 +34,5 @@ def get_new_products():
 
 
 def is_review_user(product, user):
+    """Проверка наличия отзывов у пользователя для продукта"""
     return Review.objects.filter(product=product, user=user).exists()
