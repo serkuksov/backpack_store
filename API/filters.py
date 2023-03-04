@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from products.models import Product, Category
+from products.models import Product
 
 
 class CharInFilter(filters.BaseInFilter, filters.CharFilter):

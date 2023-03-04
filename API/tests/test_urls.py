@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
-from rest_framework import status
 
 from API import views
 

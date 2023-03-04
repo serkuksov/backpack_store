@@ -10,7 +10,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from products.models import Brand, Category, Color, Product, Image
-from API.serializers import BrandSerializer, ProductSerializer, ReviewSerializer
+from API.serializers import ReviewSerializer
 from reviews.models import Review
 
 
