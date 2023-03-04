@@ -61,6 +61,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField(slug_field='name', read_only=True)
+
     class Meta:
         model = Cart
         fields = (

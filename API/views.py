@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from API.serializers import *
@@ -28,9 +28,10 @@ class ProductListAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
     pagination_class = ProductListPagination
     permission_classes = (permissions.AllowAny,)
-    filter_backends = (DjangoFilterBackend, SearchFilter,)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter,)
     filterset_class = ProductFilter
-    search_fields = ('name',)
+    search_fields = ('name', 'brand', 'description',)
+    ordering_fields = ('id', 'price', 'arefmetical_averages_review',)
 
 
 class BrandListView(APIView):
@@ -50,7 +51,7 @@ class CartViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        queryset = Cart.objects.filter(user=self.request.user).all()
+        queryset = Cart.objects.filter(user=self.request.user).select_related('product').all()
         return queryset
 
     def perform_create(self, serializer):
