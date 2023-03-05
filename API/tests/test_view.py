@@ -9,8 +9,9 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
+from carts.models import Cart
 from products.models import Brand, Category, Color, Product, Image
-from API.serializers import ReviewSerializer
+from API.serializers import ReviewSerializer, CartSerializer, CartListSerializer
 from reviews.models import Review
 
 
@@ -79,6 +80,19 @@ class ViewTestCase(TestCase):
             product=self.product_1,
             text_review='text_2',
             rating=5
+        )
+
+        self.cart_1 = Cart.objects.create(
+            user=self.user_1,
+            product=self.product_1,
+        )
+        self.cart_2 = Cart.objects.create(
+            user=self.user_1,
+            product=self.product_2,
+        )
+        self.cart_3 = Cart.objects.create(
+            user=self.user_2,
+            product=self.product_1,
         )
 
     def tearDown(self):
@@ -239,3 +253,92 @@ class ViewTestCase(TestCase):
         self.assertEqual(len(response_data), 2)
         self.assertEqual(response_data[0]['price'], 1500)
         self.assertEqual(response_data[1]['price'], 1000)
+
+    def test_get_cart_list(self):
+        """Тест для отображения списка корзины продуктов пользователя API"""
+        url = reverse('API:cart-list')
+        response = self.client.get(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.get(path=url)
+        test_data = CartListSerializer([self.cart_2, self.cart_1], many=True).data
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, test_data)
+
+    def test_post_cart(self):
+        """Тест для добавления продукта в корзину продуктов пользователя API"""
+        url = reverse('API:cart-list')
+        response = self.client.post(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.post(path=url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        self.client.force_login(self.user_1)
+        data = {
+            "product": self.product_3.id,
+            "quantity": 1
+        }
+        data_json = json.dumps(data)
+        response = self.client.post(path=url,
+                                    data=data_json,
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Cart.objects.filter(user=self.user_1, product=self.product_3).exists())
+
+    def test_get_cart_detail(self):
+        """Тест для отображения одной позиции в корзине продуктов пользователя API"""
+        url = reverse('API:cart-detail', args=[self.cart_1.id])
+        response = self.client.get(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.get(path=url)
+        test_data = CartSerializer(self.cart_1).data
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, test_data)
+
+        url = reverse('API:cart-detail', args=[self.cart_3.id])
+        self.client.force_login(self.user_1)
+        response = self.client.get(path=url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_put_cart_detail(self):
+        """Тест для редактирования одной позиции в корзине продуктов пользователя API"""
+        url = reverse('API:cart-detail', args=[self.cart_1.id])
+        response = self.client.put(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.put(path=url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        data = {
+            "quantity": 2
+        }
+        data_json = json.dumps(data)
+        response = self.client.put(path=url,
+                                   data=data_json,
+                                   content_type='application/json')
+        test_data = CartSerializer(Cart.objects.filter(id=self.cart_1.id).first()).data
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, test_data)
+
+        response = self.client.put(path=url,
+                                   data=data_json,
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_304_NOT_MODIFIED)
+
+    def test_delete_cart_detail(self):
+        """Тест для удаления одной позиции в корзине продуктов пользователя API"""
+        url = reverse('API:cart-detail', args=[self.cart_1.id])
+        response = self.client.delete(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.delete(path=url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        is_cart = Cart.objects.filter(id=self.cart_1.id).exists()
+        self.assertTrue(not is_cart)

@@ -61,12 +61,23 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    product = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Cart
-        fields = (
+        fields = '__all__'
+        read_only_fields = ('id',)
+
+
+class CartListSerializer(CartSerializer):
+    product = serializers.SlugRelatedField(slug_field='name', read_only=True)
+
+
+class CartUpdateSerializer(CartSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+        read_only_fields = (
             'id',
             'product',
-            'quantity',
         )

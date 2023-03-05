@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import pagination
@@ -56,6 +56,16 @@ class CartViewSet(viewsets.ModelViewSet):
     """CRUD корзины пользователя"""
     serializer_class = CartSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    action_serializers = {
+        'list': CartListSerializer,
+        'update': CartUpdateSerializer,
+    }
+
+    def get_serializer_class(self):
+        """Выбор сериализатора в зависимости от Действия класса (action)"""
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+        return super().get_serializer_class()
 
     def get_queryset(self):
         queryset = Cart.objects.filter(user=self.request.user).select_related('product').all()
@@ -64,3 +74,15 @@ class CartViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Создание объекта корзины с привязкой к пользователю из запроса"""
         serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        """Дополнительная проверка на наличие количества продуктов в запросе
+        и на отличие этого количества от того что уже записано в БД"""
+        quantity_new = request.data.get('quantity')
+        if quantity_new:
+            quantity_old = self.get_object().quantity
+            response = super().update(request, *args, **kwargs)
+            if quantity_old == int(quantity_new):
+                response = Response(status=status.HTTP_304_NOT_MODIFIED)
+            return response
+        return Response(status=status.HTTP_204_NO_CONTENT)
