@@ -315,6 +315,10 @@ class ViewTestCase(TestCase):
         response = self.client.put(path=url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+        self.client.force_login(self.user_1)
+        response = self.client.patch(path=url)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
         data = {
             "quantity": 2
         }
@@ -331,6 +335,21 @@ class ViewTestCase(TestCase):
                                    content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_304_NOT_MODIFIED)
 
+    def test_put_cart_detail_not_owner(self):
+        """Тест для редактирования одной позиции в чужой корзине продуктов API"""
+        url = reverse('API:cart-detail', args=[self.cart_1.id])
+        data = {
+            "quantity": 1
+        }
+        data_json = json.dumps(data)
+        self.client.force_login(self.user_2)
+        response = self.client.put(path=url,
+                                   data=data_json,
+                                   content_type='application/json')
+        quantity = Cart.objects.filter(id=self.cart_1.id).first().quantity
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(quantity, 1)
+
     def test_delete_cart_detail(self):
         """Тест для удаления одной позиции в корзине продуктов пользователя API"""
         url = reverse('API:cart-detail', args=[self.cart_1.id])
@@ -342,3 +361,15 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         is_cart = Cart.objects.filter(id=self.cart_1.id).exists()
         self.assertTrue(not is_cart)
+
+    def test_delete_cart_detail_not_owner(self):
+        """Тест для удаления позиции в чужой корзине продуктов API"""
+        url = reverse('API:cart-detail', args=[self.cart_3.id])
+        response = self.client.delete(path=url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.force_login(self.user_1)
+        response = self.client.delete(path=url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        is_cart = Cart.objects.filter(id=self.cart_1.id).exists()
+        self.assertTrue(is_cart)
