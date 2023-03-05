@@ -59,7 +59,14 @@ class CartViewSet(viewsets.ModelViewSet):
     action_serializers = {
         'list': CartListSerializer,
         'update': CartUpdateSerializer,
+        'partial_update': CartUpdateSerializer,
     }
+    http_method_names = (
+        'get',
+        'post',
+        'put',
+        'delete',
+    )
 
     def get_serializer_class(self):
         """Выбор сериализатора в зависимости от Действия класса (action)"""
