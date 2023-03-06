@@ -10,7 +10,7 @@ def count_cart_user_context_processor(request):
     if request.user.is_authenticated:
         count_cart_user = (Cart.objects.
                            filter(user=request.user).
-                           aggregate(Sum('quantity')))['quantity__sum']
-        if count_cart_user:
-            context['count_cart_user'] = count_cart_user
+                           annotate(count=Sum('quantity')).
+                           all())
+        context['count_cart_user'] = count_cart_user
     return context
