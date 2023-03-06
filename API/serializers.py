@@ -5,12 +5,6 @@ from products.models import *
 from reviews.models import Review
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('name',)
-
-
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
@@ -28,18 +22,6 @@ class ReviewSerializer(serializers.ModelSerializer):
             "text_review",
             "created_date",
         )
-
-
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = ('name',)
-
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ('name',)
 
 
 class ProductSerializer(serializers.ModelSerializer):

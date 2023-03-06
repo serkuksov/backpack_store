@@ -53,9 +53,7 @@ class BrandListView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
-        brand = Brand.objects.all()
-        serializer = BrandSerializer(brand, many=True)
-        brand_names = [brand['name'] for brand in serializer.data]
+        brand_names = Brand.objects.values_list('name', flat=True)
         return Response(brand_names)
 
 
