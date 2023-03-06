@@ -15,7 +15,7 @@ urlpatterns = [
     path('API/v1/', include(('API.urls', 'API'))),
     path('auto_drf/', include('rest_framework.urls', namespace='rest_framework')),
 
-    path('silk/', include('silk.urls', namespace='silk')),
+    # path('silk/', include('silk.urls', namespace='silk')),
 ]
 
 urlpatterns += yasg.urlpatterns

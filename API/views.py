@@ -1,3 +1,4 @@
+from django.db.models import Prefetch, Avg, F
 from rest_framework import viewsets, status
 from rest_framework import generics
 from rest_framework import permissions
@@ -23,7 +24,13 @@ class ProductListPagination(pagination.PageNumberPagination):
 
 class ProductListAPIView(generics.ListAPIView):
     """Отображение списка товаров, картинок и отзывов к ним"""
-    queryset = get_products().select_related('brand', 'category', 'colour').prefetch_related('review_set').all()
+    queryset = (Product.objects.
+                select_related('brand', 'category', 'colour').
+                annotate(arefmetical_averages_review=Avg('review__rating')).
+                prefetch_related(Prefetch('images', queryset=Image.objects.all())).
+                prefetch_related(Prefetch('review_set', queryset=Review.objects.select_related('user').all())).
+                all())
+
     serializer_class = ProductSerializer
     pagination_class = ProductListPagination
     permission_classes = (permissions.AllowAny,)

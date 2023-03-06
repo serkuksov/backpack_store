@@ -5,7 +5,9 @@ from io import BytesIO
 from PIL import Image as PILImage
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import connection
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from rest_framework import status
 
@@ -16,7 +18,7 @@ from reviews.models import Review
 
 
 class ViewTestCase(TestCase):
-    """Тесты для View"""
+    """Тесты API"""
 
     def setUp(self) -> None:
         self.brand_1 = Brand.objects.create(name='brand_1')
@@ -125,7 +127,8 @@ class ViewTestCase(TestCase):
     def test_get_product_list(self):
         """Тест по отображению списка продуктов с использованием API"""
         url = reverse('API:products')
-        response = self.client.get(path=url)
+        with self.assertNumQueries(4):
+            response = self.client.get(path=url)
         response_data = response.data.get('results')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
