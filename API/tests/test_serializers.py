@@ -142,6 +142,16 @@ class SerializerTestCase(TestCase):
         """Тест для отображения списка корзины продуктов"""
         queryset = Cart.objects.filter(user=self.user_1).all()
         serializer_data = CartListSerializer(queryset, many=True).data
-        test_data = [OrderedDict([('id', 2), ('product', 'product_2_test'), ('quantity', 1)]),
-                     OrderedDict([('id', 1), ('product', 'product_1'), ('quantity', 1)])]
+        test_data = [
+            {
+                'id': 2,
+                'product': 'product_2_test',
+                'quantity': 1
+            },
+            {
+                'id': 1,
+                'product': 'product_1',
+                'quantity': 1
+            }
+        ]
         self.assertEqual(serializer_data, test_data)
