@@ -7,7 +7,6 @@ from django.contrib.auth.views import (PasswordResetView,
 from django.urls import path
 from users_detail.views import *
 
-# TODO нужно настроить отправку писем
 urlpatterns = [
     path('register/', RegisterUser.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
