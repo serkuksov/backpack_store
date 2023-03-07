@@ -1,17 +1,13 @@
 import json
-import os
-from io import BytesIO
 
-from PIL import Image as PILImage
 from django.contrib.auth import get_user_model
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
 from carts.models import Cart
-from products.models import Brand, Category, Color, Product, Image
-from API.serializers import ReviewSerializer, CartSerializer, CartListSerializer, ProductSerializer
+from products.models import Brand, Category, Color, Product
+from API.serializers import CartSerializer, CartListSerializer
 from reviews.models import Review
 
 

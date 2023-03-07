@@ -1,4 +1,4 @@
-from django.db.models import Prefetch, Avg, F
+from django.db.models import Prefetch, Avg
 from rest_framework import viewsets, status
 from rest_framework import generics
 from rest_framework import permissions
@@ -11,7 +11,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from API.serializers import *
 from carts.models import Cart
 from products.models import *
-from products.servises import get_products
 from .filters import *
 
 
