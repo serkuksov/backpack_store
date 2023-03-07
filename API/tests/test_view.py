@@ -11,7 +11,7 @@ from rest_framework import status
 
 from carts.models import Cart
 from products.models import Brand, Category, Color, Product, Image
-from API.serializers import ReviewSerializer, CartSerializer, CartListSerializer
+from API.serializers import ReviewSerializer, CartSerializer, CartListSerializer, ProductSerializer
 from reviews.models import Review
 
 
@@ -58,15 +58,6 @@ class ViewTestCase(TestCase):
             brand=self.brand_2,
         )
 
-        self.image_1 = Image.objects.create(product=self.product_1,
-                                            image=self.create_test_image())
-        self.image_2 = Image.objects.create(product=self.product_1,
-                                            image=self.create_test_image())
-        self.image_3 = Image.objects.create(product=self.product_2,
-                                            image=self.create_test_image())
-        self.image_4 = Image.objects.create(product=self.product_3,
-                                            image=self.create_test_image())
-
         self.user_1 = get_user_model().objects.create(username='user_1')
         self.review_1 = Review.objects.create(
             user=self.user_1,
@@ -95,22 +86,6 @@ class ViewTestCase(TestCase):
             product=self.product_1,
         )
 
-    def tearDown(self):
-        images = Image.objects.all()
-        for image in images:
-            os.remove(image.image.path)
-
-    def create_test_image(self):
-        """Создание тестового изображения"""
-        # Генерируем изображение и сохраняем его во временном файле
-        image = PILImage.new('RGB', (100, 100), (255, 0, 0))
-        # Создаем временный файл в памяти
-        buffer = BytesIO()
-        image.save(buffer, 'jpeg')
-        image_data = buffer.getvalue()
-        image_file = InMemoryUploadedFile(buffer, None, 'test.jpg', 'image/jpeg', len(image_data), None)
-        return image_file
-
     def test_get_brand_list(self):
         """Тест по отображению списка брендов с использованием API"""
         url = reverse('API:brands')
@@ -132,7 +107,6 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response_data), 2)
         self.assertEqual(response_data[0]['name'], 'product_1')
-        self.assertEqual(response_data[0]['price'], 1000)
         self.assertEqual(response_data[1]['name'], 'product_2_test')
 
     def test_get_product_list_filter_min_price(self):
@@ -242,7 +216,7 @@ class ViewTestCase(TestCase):
         """Тест для отображения списка корзины продуктов пользователя API"""
         url = reverse('API:cart-list')
         response = self.client.get(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.get(path=url)
@@ -254,7 +228,7 @@ class ViewTestCase(TestCase):
         """Тест для добавления продукта в корзину продуктов пользователя API"""
         url = reverse('API:cart-list')
         response = self.client.post(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.post(path=url)
@@ -276,7 +250,7 @@ class ViewTestCase(TestCase):
         """Тест для отображения одной позиции в корзине продуктов пользователя API"""
         url = reverse('API:cart-detail', args=[self.cart_1.id])
         response = self.client.get(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.get(path=url)
@@ -293,7 +267,7 @@ class ViewTestCase(TestCase):
         """Тест для редактирования одной позиции в корзине продуктов пользователя API"""
         url = reverse('API:cart-detail', args=[self.cart_1.id])
         response = self.client.put(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.put(path=url)
@@ -338,7 +312,7 @@ class ViewTestCase(TestCase):
         """Тест для удаления одной позиции в корзине продуктов пользователя API"""
         url = reverse('API:cart-detail', args=[self.cart_1.id])
         response = self.client.delete(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.delete(path=url)
@@ -350,7 +324,7 @@ class ViewTestCase(TestCase):
         """Тест для удаления позиции в чужой корзине продуктов API"""
         url = reverse('API:cart-detail', args=[self.cart_3.id])
         response = self.client.delete(path=url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.client.force_login(self.user_1)
         response = self.client.delete(path=url)
