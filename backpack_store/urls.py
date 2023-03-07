@@ -14,6 +14,8 @@ urlpatterns = [
     path('likes/', include(('likes.urls', 'likes'))),
     path('API/v1/', include(('API.urls', 'API'))),
     path('auto_drf/', include('rest_framework.urls', namespace='rest_framework')),
+    # path('API/v1/auto/', include('djoser.urls')),
+    path('API/v1/auto/', include('djoser.urls.authtoken')),
 
     # path('silk/', include('silk.urls', namespace='silk')),
 ]
