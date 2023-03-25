@@ -3,4 +3,5 @@
 /templates/Payne/
 /.idea/
 /service/db.sqlite3
-/service/static/
+/service/staticfiles/
+/service/mediafiles/
