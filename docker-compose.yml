@@ -1,23 +1,40 @@
 services:
   web-app:
-    build:
-      context: .
+    build: ./
+    container_name: backpack_store_web
     ports:
-      - "8000:8000"
+      - 8000
     volumes:
-      - ./service:/service
-    command: >
-      sh -c "python manage.py makemigrations && 
-      python manage.py migrate && 
-      python manage.py runserver 0.0.0.0:8000"
+      - .:/usr/src/app
+      - ./service/static:/usr/src/app/service/static
+      - ./service/media:/usr/src/app/service/media
+    command: bash ./entrypoint.sh
     depends_on:
-      - database
+      - db
     restart: unless-stopped
     env_file:
       - .env
 
-  database:
+  db:
     image: postgres:14.6-alpine
+    container_name: backpack_store_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
     restart: unless-stopped
+
+  nginx:
+    build: ./nginx
+    container_name: backpack_store_nginx
+    restart: unless-stopped
+    ports:
+      - 81:80
+    volumes:
+      - ./service/static:/static
+      - ./service/media:/media
+    depends_on:
+      - web-app
+
+volumes:
+  postgres_data:

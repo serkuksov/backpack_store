@@ -1,17 +1,29 @@
-FROM python:3.10-alpine3.17
+FROM python:3.10
 
-COPY requirements.txt /temp/requirements.txt
+WORKDIR /usr/src/app
 
-COPY service /service
-WORKDIR /service
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY ./requirements.txt /usr/src/app/
+
+RUN pip install -r requirements.txt
+
+COPY . /usr/src/app/
 
 EXPOSE 8000
 
-RUN apk update
-RUN apk add gcc postgresql-client build-base postgresql-dev
+#RUN apk update
+#RUN apk add gcc postgresql-client build-base postgresql-dev
 
-RUN pip install -r /temp/requirements.txt
 
-RUN adduser --disabled-password service-user
+#COPY entrypoint.sh ./entrypoint.sh
+#RUN ["chmod", "+x", "/service/entrypoint.sh"]
 
-USER service-user
+
+
+#RUN adduser --disabled-password user
+
+#RUN chown user:user /service
+
+#USER user
