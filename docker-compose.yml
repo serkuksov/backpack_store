@@ -31,7 +31,7 @@ services:
     container_name: backpack_store_nginx
     restart: unless-stopped
     ports:
-      - 81:80
+      - 80:80
     volumes:
       - ./service/staticfiles:/home/app/web/staticfiles
       - ./service/mediafiles:/home/app/web/mediafiles
